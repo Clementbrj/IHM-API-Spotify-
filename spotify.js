@@ -1,25 +1,14 @@
-import express from 'express';
-import querystring from 'querystring';
-import axio from 'axios';
+const { app, SECRET_KEY } = require('./index');
+const querystring = require('querystring');
+console.log("test");
 
-
-// const express = require('express');
-
-// const querystring = require('querystring');
-// const axios= require('axios');
-// const session = require('express-session');
-const app = express();
-const port = 3000;
-
-// app.use(session({
-//     secret: 'ton_secret',
-//     resave: false,
-//     saveUninitialized: true
-// }));
+/* ------------------
+        SPOTIFY
+   ------------------ */
 
 // Client Spotify
-const client_id = 'A_Renseigner'; // Remplace avec ton client_id
-const client_secret = 'A_Renseigner'; // Remplace avec ton client_secret
+const client_id = 'd51627c0ad584ed2a2188a5c1ec3389d'; // Remplace avec ton client_id
+const client_secret = 'b2ad906b549c451198445e6a15cbab9c'; // Remplace avec ton client_secret
 
 
 // Fonction pour générer une chaîne aléatoire
@@ -44,7 +33,7 @@ app.get('/', (req, res) => {
 app.get('/spotify/connexion', (req, res) => {
     var state = generateRandomString(16);
     const scope = 'user-read-recently-played';
-    redirect_uri = 'http://localhost:3000/callback';
+    redirect_uri = 'http://localhost:3000/spotify/callback';
 
     res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
@@ -100,12 +89,4 @@ console.log(req.query.state);
             return res.status(500).json({ error: "Erreur lors de l'obtention du token" });
         }
     }
-});
-
-
-
-
-// Démarrer le serveur
-app.listen(port, () => {
-    console.log(`Serveur en cours d'exécution sur http://localhost:${port}`);
 });
