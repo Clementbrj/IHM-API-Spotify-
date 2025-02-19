@@ -1,5 +1,7 @@
 const express = require('express');
 
+console.log("ok");
+
 const fs = require('fs');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
@@ -33,4 +35,4 @@ app.listen(PORT, () => {
 
 // Rendre disponible des modules pour les autres fichiers
 module.exports = { app, readUsers, writeUsers, SECRET_KEY };
-require('./spotify');  // Ajoute & démarre des routes spotify
+require('./spotify/spotify');  // Ajoute & démarre des routes spotify
