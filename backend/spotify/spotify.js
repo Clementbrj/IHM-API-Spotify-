@@ -26,7 +26,7 @@ function generateRandomString(length) {
 // Route pour se connecter à Spotify 
 app.get('/spotify/connexion', (req, res) => {
     var state = generateRandomString(16);
-    const scope = 'user-read-recently-played';
+    const scope = 'user-read-recently-played user-read-private';
 
     res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
@@ -46,13 +46,14 @@ app.get('/spotify/connexion', (req, res) => {
 app.get('/spotify/callback', async (req, res) => { // Async pour utiliser Axios
     const code = req.query.code || null;
     var state = req.query.state || null;
+    let returnjson = [];
 
     if (!code) {
         return res.status(400).json({ error: "Code d'autorisation manquant" });
     }
 
     if (state === null) {
-        return res.redirect('/#' +querystring.stringify({error: "State manquant"}));
+        return res.status(400).redirect('/#' +querystring.stringify({error: "State manquant"}));
     }
 
     const authOptions = {
@@ -68,8 +69,9 @@ app.get('/spotify/callback', async (req, res) => { // Async pour utiliser Axios
         })
     };
 
+    // --- token
     try {
-        const response = await axios.post('https://accounts.spotify.com/api/token', querystring.stringify({
+        const tokenresponse = await axios.post('https://accounts.spotify.com/api/token', querystring.stringify({
             code: code,
             redirect_uri: redirect_uri,
             grant_type: 'authorization_code'
@@ -79,11 +81,23 @@ app.get('/spotify/callback', async (req, res) => { // Async pour utiliser Axios
                 'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
             }
         });
-    
-        console.log("Token reçu:", response.data);
-        return res.json({ message: "Token valide", access_token: response.data.access_token });
+
+        const tokenspotify = tokenresponse.data.access_token; 
+        returnjson[0] = "TOKEN : " + tokenresponse.data.access_token;
+        //--- username
+        try {
+            const usernameresponse = await axios.get('https://api.spotify.com/v1/me', {
+                headers: {
+                    'Authorization': `Bearer ${tokenspotify}`
+                }
+            });
+            returnjson[1] = "USERNAME : " + usernameresponse.data.display_name;
+            return res.status(200).json(returnjson);
+        }catch (error){
+            return res.status(500).json({ error: "Erreur lors de l'obtention du username spotify" + tokenspotify.error   });
+        }
+        //--- username
     } catch (error) {
-        console.error("Erreur détaillée:", error.response?.data || error.message);
         return res.status(500).json({ error: "Erreur lors de l'obtention du token" });
     }
 });
