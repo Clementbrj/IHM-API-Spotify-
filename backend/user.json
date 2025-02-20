@@ -1,25 +1,30 @@
-
-
 [
-    {
-        "username": "dd",
-        "password": "dd",
-        "playlist": "dd",
-        "titre": "dd",
-        "association": "dd",
-        "titre_encours": "dd",
-        "appareil": "dd",
-        "spotify_info": {
-            "usernamespotify": "dd",
-            "popularité": "dd",
-            "tokenspotify": "dd",
-            "durée_moyenne": "dd"
-        },
-        "groupe": {
-            "nom": "dd",
-            "is_admin": "dd",
-            "members": ["user1", "user2"],
-            "taille": 10
-        }
+  {
+    "username": "dd",
+    "password": "dd",
+    "playlist": "dd",
+    "titre": "dd",
+    "association": "dd",
+    "titre_encours": "dd",
+    "appareil": "dd",
+    "spotify_info": {
+      "usernamespotify": "dd",
+      "popularité": "dd",
+      "tokenspotify": "dd",
+      "durée_moyenne": "dd"
+    },
+    "groupe": {
+      "nom": "dd",
+      "is_admin": "dd",
+      "members": [
+        "user1",
+        "user2"
+      ],
+      "taille": 10
     }
+  },
+  {
+    "name": "fgdfgdf",
+    "password": "gdfgdfg"
+  }
 ]

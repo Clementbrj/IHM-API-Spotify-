@@ -11,7 +11,7 @@ const SubscribeForm = () => {
             alert("Please input a name");
         }
         try {
-            await axios.post("/users", {name, password})
+            await axios.post("http://localhost:3000/users",{name, password})
                 .then(response => {
                     console.log(response);
                 })
