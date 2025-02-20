@@ -1,6 +1,6 @@
 [
   {
-    "username": "dd",
+    "name": "dd",
     "password": "dd",
     "playlist": "dd",
     "titre": "dd",
@@ -26,5 +26,17 @@
   {
     "name": "fgdfgdf",
     "password": "gdfgdfg"
+  },
+  {
+    "name": "vbcvb",
+    "password": "cvbcvb"
+  },
+  {
+    "name": "vbcvb",
+    "password": "cvbcvb"
+  },
+  {
+    "name": "p",
+    "password": "p"
   }
 ]
