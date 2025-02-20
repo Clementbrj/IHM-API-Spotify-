@@ -2,16 +2,21 @@ const { app, SECRET_KEY } = require('../server');
 const querystring = require('querystring');
 const axios = require('axios');
 
-/* ------------------
-        SPOTIFY
-   ------------------ */
+let accessToken = "";
+let refreshToken = "";
 
-// Client Spotify
+let tokenExpirationTime = 0;
+
+/* ------------------------------------
+        SPOTIFY Premiere Connexion
+   ------------------------------------ */
+
+// Mettre les bons Identifiants Spotify Developper !!!
 const client_id = 'd51627c0ad584ed2a2188a5c1ec3389d';
 const client_secret = 'b2ad906b549c451198445e6a15cbab9c';
 const redirect_uri = 'http://localhost:3000/spotify/callback';
 
-// Fonction pour générer une chaîne aléatoire
+// Fonction pour générer une chaîne aléatoire (Authorization code)
 function generateRandomString(length) {
     let text = '';
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -22,11 +27,10 @@ function generateRandomString(length) {
     return text;
 }
 
-// Etape 1 Authorization code -------------------------------------------------------------------
-// Route pour se connecter à Spotify 
+// Route pour se connecter à Spotify avec google..
 app.get('/spotify/connexion', (req, res) => {
     var state = generateRandomString(16);
-    const scope = 'user-read-recently-played user-read-private';
+    const scope = 'user-read-recently-played user-read-private user-library-read';
 
     res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
@@ -38,12 +42,8 @@ app.get('/spotify/connexion', (req, res) => {
         }));
 });
 
-
-
-
-// Etape 2 Authorization code -------------------------------------------------------------------
-// Route de callback
-app.get('/spotify/callback', async (req, res) => { // Async pour utiliser Axios
+// Route de callback pour avoir le token & l'username
+app.get('/spotify/callback', async (req, res) => {
     const code = req.query.code || null;
     var state = req.query.state || null;
     let returnjson = [];
@@ -53,23 +53,10 @@ app.get('/spotify/callback', async (req, res) => { // Async pour utiliser Axios
     }
 
     if (state === null) {
-        return res.status(400).redirect('/#' +querystring.stringify({error: "State manquant"}));
+        return res.status(400).redirect('/#' + querystring.stringify({ error: "State manquant" }));
     }
 
-    const authOptions = {
-        url: 'https://accounts.spotify.com/api/token', // URL de l'API de Spotify pour récupérer le token
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
-        },
-        data: querystring.stringify({ // Données à envoyer dans le corps de la requête
-            code: code,
-            redirect_uri: redirect_uri,
-            grant_type: 'authorization_code'
-        })
-    };
-
-    // --- token
+    // try pour avoir le token
     try {
         const tokenresponse = await axios.post('https://accounts.spotify.com/api/token', querystring.stringify({
             code: code,
@@ -82,22 +69,75 @@ app.get('/spotify/callback', async (req, res) => { // Async pour utiliser Axios
             }
         });
 
-        const tokenspotify = tokenresponse.data.access_token; 
+        accessToken = tokenresponse.data.access_token;
+        refreshToken = tokenresponse.data.refresh_token;
+        tokenExpirationTime = new Date().getTime() + (tokenresponse.data.expires_in * 1000); //Initier l'expiration du premier token [!]
+
         returnjson[0] = "TOKEN : " + tokenresponse.data.access_token;
-        //--- username
+
+        // try pour avoir l'username
         try {
             const usernameresponse = await axios.get('https://api.spotify.com/v1/me', {
                 headers: {
-                    'Authorization': `Bearer ${tokenspotify}`
+                    'Authorization': `Bearer ${accessToken}`
                 }
             });
             returnjson[1] = "USERNAME : " + usernameresponse.data.display_name;
             return res.status(200).json(returnjson);
-        }catch (error){
-            return res.status(500).json({ error: "Erreur lors de l'obtention du username spotify" + tokenspotify.error   });
+        } catch (error) {
+            return res.status(500).json({ error: "Erreur lors de l'obtention du username spotify" });
         }
-        //--- username
     } catch (error) {
         return res.status(500).json({ error: "Erreur lors de l'obtention du token" });
     }
+});
+
+/* ------------------------------------
+        SPOTIFY en cours d'utilisation
+   ------------------------------------ */
+
+// Checker l'heure actuel VS l'heurese d'expiration
+const checkTokenValidity = async (req, res, next) => {
+    const currentTime = new Date().getTime();
+
+    // Vérifiez si le token est expiré (date d'expiration implémenter dans le callback)
+    if (currentTime >= tokenExpirationTime) {
+        try {
+            const response = await refreshAccessToken();
+            accessToken = response.data.access_token;
+            tokenExpirationTime = currentTime + (response.data.expires_in * 1000);
+        } catch (error) {
+            return res.status(500).json({ error: "Erreur lors du rafraîchissement du token" });
+        }
+    }
+    req.accessToken = accessToken;
+    next();
+};
+
+// Générer un nouveau token si expiration
+const refreshAccessToken = async () => {
+    const url = "https://accounts.spotify.com/api/token";
+    try {
+        const response = await axios.post(url, querystring.stringify({
+            grant_type: 'refresh_token',
+            refresh_token: refreshToken,
+            client_id: client_id,
+            client_secret: client_secret
+        }), {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
+            }
+        });
+        return response;
+    } catch (error) {
+        throw new Error("Erreur lors du rafraîchissement du token");
+    }
+};
+
+
+
+// Route pour récupérer les titres liker
+app.get('/spotify/ShowLiked', checkTokenValidity, async (req, res) => {
+    res.json("Oéoé-oé");
 });
