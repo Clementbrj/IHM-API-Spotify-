@@ -30,16 +30,45 @@ const writeUsers = async (req, res) => {
 
 // Route pour ajouter un utilisateur
 router.post("/users", (req, res) => {
-    const { name, password } = req.body;
+    const { name, password, playlist = "",
+        titre = "",
+        association = "",
+        titre_encours = "",
+        appareil = "",
+        spotify_info = {
+            "usernamespotify": "",
+            "popularité": "",
+            "tokenspotify": "",
+            "durée_moyenne": ""
+        },
+        groupe = {
+            "nom": "",
+            "is_admin": "",
+            "members": [
+            ],
+            "taille": 10
+        }  } = req.body;
 
     if (!name || !password) {
         return res.status(400).json({ error: "Le nom et le mot de passe sont requis" });
     }
 
     const users = readUsers();
-    const newUser = { name, password };
+    const newUser = { name, password, playlist,
+        titre,
+        association,
+        titre_encours,
+        appareil,
+        spotify_info,
+        groupe,
+        };
+    try{
     users.push(newUser);
     writeUsers(users);
+
+    }catch(err){
+        console.log(err);
+    }
 
     console.log("Nouvel utilisateur ajouté :", newUser);
     res.status(201).json({ message: "Utilisateur créé avec succès", user: newUser });
