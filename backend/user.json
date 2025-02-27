@@ -127,5 +127,16 @@
       "members": [],
       "taille": 10
     }
+  },
+  {
+    "groupe": "dfsdf"
+  },
+  {
+    "groupe": {
+      "nom": "1",
+      "is_admin": "1",
+      "members": [],
+      "taille": 10
+    }
   }
 ]
