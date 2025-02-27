@@ -5,16 +5,15 @@ console.log("ok");
 
 const app = express();
 const PORT = 3000;
-const SECRET_KEY = 'supersecretkey'; // ⚠️ À stocker dans `.env` en production
 
-const router = require("./router"); // ✅ Importation correcte
 const routerLogin = require("./routerLogin"); // ✅ Importation correcte
+const USERS_FILE = 'user.json';
+const SECRET_KEY = 'supersecretkey'; // Clé pour JWT
+const { router, groupe } = require("./router");
 
 app.use(cors());
 app.use(express.json());
-
-// Utilisation des routes
-app.use("/", router);
+app.use("/", router, groupe);
 app.use("/", routerLogin); // ✅ Ajouté séparément
 
 // Démarrage du serveur
