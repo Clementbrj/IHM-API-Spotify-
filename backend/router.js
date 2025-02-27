@@ -52,12 +52,7 @@ router.post("/users", (req, res) => {
             tokenspotify: "1",
             durée_moyenne: "1"
         },
-        groupe = {
-            nom: "1",
-            is_admin: "1",
-            members: [],
-            taille: 10
-        }
+        groupe = null,
     } = req.body;
 
     if (!name || !password) {
@@ -82,11 +77,11 @@ router.post("/users", (req, res) => {
     };
 
 
-        users.push(newUser); // Ajouter le nouvel utilisateur
-        writeUsers(users); // Écrire la liste mise à jour dans le fichier
+    users.push(newUser); // Ajouter le nouvel utilisateur
+    writeUsers(users); // Écrire la liste mise à jour dans le fichier
 
-        console.log("Nouvel utilisateur ajouté :", newUser);
-        res.status(201).json({message: "Utilisateur créé avec succès", user: newUser});
+    console.log("Nouvel utilisateur ajouté :", newUser);
+    res.status(201).json({message: "Utilisateur créé avec succès", user: newUser});
 
 });
 
