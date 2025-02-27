@@ -10,6 +10,7 @@ const SubscribeForm = () => {
         if (!name.trim() || !password.trim()) {
             alert("Please input a name");
         }
+
         try {
             await axios.post("http://localhost:3000/users",{name, password})
                 .then(response => {
