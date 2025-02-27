@@ -6,12 +6,12 @@ const cors = require("cors");
 const PORT = 3000;
 const USERS_FILE = 'user.json';
 const SECRET_KEY = 'supersecretkey'; // Clé pour JWT
-const router = require("./router");
+const { router, groupe } = require("./router");
 
 app.use(cors());
 app.use(express.json());
 app.use("/", router);
-
+app.use("/", groupe);
 
 
 app.listen(PORT, () => {
