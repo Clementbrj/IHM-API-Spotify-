@@ -1,8 +1,7 @@
 const express = require("express");
 const fs = require("fs");
-const crypto = require("crypto");
-
 const router = express.Router();
+
 const USERS_FILE = "user.json";
 const groupe = require("./groupe");
 
@@ -21,6 +20,7 @@ const VerifyUser = (name, password) => {
     const users = readUsers();
     return users.find(user => user.name === name && user.password === password);
 }
+
 
 // Écrire la liste des utilisateurs dans le fichier JSON
 const writeUsers = (users) => {
@@ -73,6 +73,7 @@ router.post("/users", (req, res) => {
         titre_encours,
         appareil,
         spotify_info,
+
         groupe
     };
 
@@ -82,8 +83,6 @@ router.post("/users", (req, res) => {
 
     console.log("Nouvel utilisateur ajouté :", newUser);
     res.status(201).json({message: "Utilisateur créé avec succès", user: newUser});
-
-});
 
 module.exports = {
     router,

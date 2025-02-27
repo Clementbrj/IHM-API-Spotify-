@@ -136,7 +136,6 @@ const refreshAccessToken = async () => {
 };
 
 
-
 // Route pour récupérer les titres liker
 app.get('/spotify/ShowLiked', checkTokenValidity, async (req, res) => {
     res.json("Oéoé-oé");
