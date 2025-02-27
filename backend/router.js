@@ -1,17 +1,16 @@
 const express = require("express");
 const fs = require("fs");
-const crypto = require("crypto");
-
 const router = express.Router();
-const USERS_FILE = "user.json";
 
+const USERS_FILE = "user.json";
 
 // Route par défaut (accueil)
 router.get("/", (req, res) => {
     res.json("Bienvenue dans l'API");
 });
 
-const readUsers = async (req, res) => {
+// Lire les utilisateurs
+const readUsers = () => {
     if (!fs.existsSync(USERS_FILE)) return [];
     try {
         return JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
@@ -20,11 +19,12 @@ const readUsers = async (req, res) => {
     }
 }
 
-const writeUsers = async (req, res) => {
+// Écrire les utilisateurs
+const writeUsers = (users) => { // ✅ Corrigé : on prend `users` en paramètre
     try {
-        fs.writeFileSync(USERS_FILE, JSON.stringify(req.body, null, 2), 'utf8');
+        fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), 'utf8');
     } catch (error) {
-        console.error(error);
+        console.error("Erreur d'écriture :", error);
     }
 }
 
@@ -44,10 +44,10 @@ router.post("/users", (req, res) => {
         groupe = {
             "nom": "",
             "is_admin": "",
-            "members": [
-            ],
+            "members": [],
             "taille": 10
-        }  } = req.body;
+        }
+    } = req.body;
 
     if (!name || !password) {
         return res.status(400).json({ error: "Le nom et le mot de passe sont requis" });
@@ -61,12 +61,12 @@ router.post("/users", (req, res) => {
         appareil,
         spotify_info,
         groupe,
-        };
-    try{
-    users.push(newUser);
-    writeUsers(users);
+    };
 
-    }catch(err){
+    try {
+        users.push(newUser);
+        writeUsers(users);
+    } catch (err) {
         console.log(err);
     }
 
@@ -74,5 +74,4 @@ router.post("/users", (req, res) => {
     res.status(201).json({ message: "Utilisateur créé avec succès", user: newUser });
 });
 
-
-module.exports = router;
+module.exports = router; // ✅ Exporte uniquement `router`
