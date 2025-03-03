@@ -4,6 +4,8 @@ const router = express.Router();
 
 const USERS_FILE = "user.json";
 const groupe = require("./groupe");
+const error = require("eslint-plugin-react/lib/util/error");
+const axios = require("axios");
 
 // Lire les utilisateurs depuis le fichier JSON
 const readUsers = () => {
@@ -84,7 +86,44 @@ router.post("/users", (req, res) => {
     console.log("Nouvel utilisateur ajouté :", newUser);
     res.status(201).json({message: "Utilisateur créé avec succès", user: newUser});
 
-module.exports = {
-    router,
-    groupe,
-}
+})
+
+router.post("users/:name/musique", async (req, res) => {
+    const {name} = req.body;
+    const users = readUsers();
+    const user = await users.find(user => user.name === name);
+
+    if (!user) {
+        return res.status(404).json({error: "Utilisateur non trouvé"});
+    }
+
+    if (!user.spotify?.tokenspotify){
+        return res.status(404).json({error: "Utilisateur non connecté à Spotify"})
+    }
+
+    try {
+        const response = await axios.get("https://api.spotify.com/v1/me/player/currently-playing", {
+            headers: {authorization: `Bearer ${user.spotify.tokenspotify}`},
+        })
+        if (!response.data || !response.data.playlist) {
+            return res.json({error: "Aucune musique en cours d'écoute"})
+        }
+        const track = response.data.item;
+        const musique = {
+            titre: track.name,
+        }
+
+        user.titre_encours = musique.titre;
+        fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), "utf8");
+        res.json(musique);
+
+    } catch(err) {
+        console.log("erreur API spotify :", err.response?.data || err.message);
+        res.status(500).json({error: "Impossible de récupérer la musique en cours"});
+    }
+})
+
+    module.exports = {
+        router,
+        groupe,
+    }
