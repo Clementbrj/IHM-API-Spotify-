@@ -92,11 +92,16 @@ groupe.post("/groupes/join", (req, res) => {
             taille: groupe.taille
         };
         groupes.push(existingGroup);
+        user.groupe = existingGroup.nom;
+        user.is_admin = {
+            is_admin: existingGroup.nom,
+        }
     } else {
         // Vérifie si l'utilisateur est déjà membre
         if (!existingGroup.members.includes(userName)) {
             existingGroup.members.push(userName);
         }
+        user.groupe = existingGroup.nom;
     }
 
     // Mise à jour du groupe de l'utilisateur
@@ -107,5 +112,6 @@ groupe.post("/groupes/join", (req, res) => {
     console.log("Groupe mis à jour :", existingGroup);
     res.status(201).json({message: "Groupe rejoint/créé avec succès", groupe: existingGroup});
 });
+
 
 module.exports = groupe;
