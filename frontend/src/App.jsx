@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './component/styles/App.css'
+import Ihm from './pages/ihm'
 import SubscribeForm from './pages/Subscribe'
 import Login from './pages/Login'
 import Groupe from "./pages/Groupe";
@@ -12,6 +13,7 @@ function App() {
         <Router>
             <Routes>
             <Route path="/inscription" element={<SubscribeForm />} />{" "}
+            <Route path="/" element={<Ihm />} />{" "}
             <Route path="/login" element={<Login />} />{" "}
             <Route path="/groupe" element={<Groupe />} />{" "}
             </Routes>
