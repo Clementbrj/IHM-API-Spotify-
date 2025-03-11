@@ -1,7 +1,7 @@
 const express = require("express");
 const fs = require("fs");
 const router = express.Router();
-
+const generateToken = require("./token/token.js");
 const USERS_FILE = "user.json";
 const groupe = require("./groupe");
 const error = require("eslint-plugin-react/lib/util/error");
@@ -51,6 +51,7 @@ router.post("/users", (req, res) => {
         spotify_info = {
             usernamespotify: "1",
             popularité: "1",
+            usertoken: generateToken(name),
             tokenspotify: "1",
             durée_moyenne: "1"
         },
