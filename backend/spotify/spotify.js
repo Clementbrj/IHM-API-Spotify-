@@ -157,47 +157,63 @@
 
 
     app.get('/spotify/ShowLiked', async (req, res) => {
-        console.log("tt" + accessToken);
-        // header tokenapi
-        //const TokenSpotify = getlike();
-        
         try {
             const response = await axios.get('https://api.spotify.com/v1/me/tracks', {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 },
                 params: {
-                    limit: 20,
+                    limit: 50, // Augmentez la limite pour obtenir plus de titres si nécessaire
                 }
             });
-
-            const tracklist = response.data;
-            return res.status(200).json(tracklist);
+    
+            const tracklist = response.data.items;
+    
+            if (tracklist.length === 0) {
+                return res.status(404).json({ error: "Aucun titre liké trouvé" });
+            }
+    
+            // Calculer la popularité moyenne et la durée moyenne
+            let totalPopularity = 0;
+            let totalDuration = 0;
+    
+            tracklist.forEach(item => {
+                const track = item.track;
+                totalPopularity += track.popularity;
+                totalDuration += track.duration_ms;
+            });
+    
+            const averagePopularity = totalPopularity / tracklist.length;
+            const averageDuration = totalDuration / tracklist.length;
+    
+            // Retourner le portrait de l'utilisateur
+            const userPortrait = {
+                averagePopularity: averagePopularity,
+                averageDuration: averageDuration // Convertir en secondes ou minutes si nécessaire
+            };
+    
+            return res.status(200).json(userPortrait);
         } catch (error) {
             console.error("Erreur lors de la récupération des titres likés :", error);
             if (error.response) {
-                // La requête a été faite et le serveur a répondu avec un code de statut en dehors de la plage 2xx
                 return res.status(error.response.status).json({ error: error.response.data });
             } else if (error.request) {
-                // La requête a été faite mais aucune réponse n'a été reçue
                 return res.status(503).json({ error: "Service indisponible" });
             } else {
-                // Quelque chose s'est produit lors de la configuration de la requête qui a déclenché une erreur
                 return res.status(500).json({ error: "Erreur interne du serveur" });
             }
         }
     });
-
-
-    // AT spotify a stock dans .json
-    // 
-
-    //mettre dans le ENV client id client secret et scope spotify
+    
 
 
     /*
     ToDo List : 
     Mettre les variables sensibles dans le .env FAIT
+
+    récupérer le AT dans getlike et le vérifier avec checktoken
+
+    checker la route ShowLiked qui n'est pas a jour (générer avec mistral pour ajouter les analytics)
 
     enregistrer l'accesstoken dans la BDD et non dans une variable globale
     mettre à jour l'accesstoken dans la bdd et non dans la variable globale
