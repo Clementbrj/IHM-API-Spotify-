@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './component/styles/App.css'
+import Ihm from './pages/ihm'
 import SubscribeForm from './pages/Subscribe'
 import LoginForm from "./component/Login/LoginForm";
 import Groupe from "./pages/Groupe";
