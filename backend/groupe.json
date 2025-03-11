@@ -1,0 +1,62 @@
+[
+  {
+    "groupes": {
+      "nom": "1",
+      "is_admin": "1",
+      "members": [],
+      "taille": 10
+    }
+  },
+  {
+    "nom": "1",
+    "is_admin": "1",
+    "members": [],
+    "taille": 10
+  },
+  {
+    "nom": "jkljkljkl",
+    "is_admin": "1",
+    "members": [],
+    "taille": "6"
+  },
+  {
+    "nom": "dsfdsf",
+    "is_admin": "1",
+    "members": [],
+    "taille": "2"
+  },
+  {
+    "nom": "dfdsfdsf",
+    "is_admin": "1",
+    "members": [],
+    "taille": "2"
+  },
+  {
+    "nom": "dsfdsfdf",
+    "members": [
+      null
+    ],
+    "taille": "3"
+  },
+  {
+    "nom": "ddd",
+    "is_admin": "1",
+    "members": [],
+    "taille": "1"
+  },
+  {
+    "nom": "fdgdfg",
+    "members": [
+      null,
+      null
+    ],
+    "taille": 2
+  },
+  {
+    "nom": "dfsdf",
+    "members": [
+      null
+    ],
+    "taille": 2
+  }
+]

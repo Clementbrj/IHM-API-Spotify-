@@ -1,0 +1,142 @@
+[
+  {
+    "name": "dd",
+    "password": "dd",
+    "playlist": "dd",
+    "titre": "dd",
+    "association": "dd",
+    "titre_encours": "dd",
+    "appareil": "dd",
+    "spotify_info": {
+      "usernamespotify": "dd",
+      "popularité": "dd",
+      "tokenspotify": "dd",
+      "durée_moyenne": "dd"
+    },
+    "groupe": {
+      "nom": "dd",
+      "is_admin": "dd",
+      "members": [
+        "user1",
+        "user2"
+      ],
+      "taille": 10
+    }
+  },
+  {
+    "name": "p",
+    "password": "p",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": {
+      "nom": "1",
+      "is_admin": "1",
+      "members": [],
+      "taille": 10
+    }
+  },
+  {
+    "name": "p",
+    "password": "p",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": {
+      "nom": "1",
+      "is_admin": "1",
+      "members": [],
+      "taille": 10
+    }
+  },
+  {
+    "name": "p",
+    "password": "p",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": {
+      "nom": "1",
+      "is_admin": "1",
+      "members": [],
+      "taille": 10
+    }
+  },
+  {
+    "name": "v",
+    "password": "v",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": {
+      "nom": "1",
+      "is_admin": "1",
+      "members": [],
+      "taille": 10
+    }
+  },
+  {
+    "name": "hj",
+    "password": "ghjghj",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": {
+      "nom": "1",
+      "is_admin": "1",
+      "members": [],
+      "taille": 10
+    }
+  },
+  {
+    "groupe": "dfsdf"
+  },
+  {
+    "groupe": {
+      "nom": "1",
+      "is_admin": "1",
+      "members": [],
+      "taille": 10
+    }
+  }
+]

@@ -1,5 +1,5 @@
 import React from "react";
-import SubscribeForm from "../component/login/SubscribeForm";
+import SubscribeForm from "../component/Subscribe/SubscribeForm";
 
 export default function Subscribe () {
     return (
