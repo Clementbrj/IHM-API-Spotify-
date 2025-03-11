@@ -1,31 +1,44 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
+import { useAuth } from "../context/AuthContext"; // ✅ Vérifie bien ce chemin
+import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 
-// 🛡️ Schéma de validation avec Yup
+// Validation des champs du formulaire avec Yup
 const validationSchema = Yup.object().shape({
-    email: Yup.string()
-        .email('Invalid email')
-        .required('Email is required'),
+    prenom: Yup.string()
+        .min(2, 'Le prénom doit avoir au moins 2 caractères')
+        .required('Prénom obligatoire'),
     password: Yup.string()
-        .min(8, 'Password must be at least 8 characters')
-        .matches(/[A-Z]/, 'Must contain at least one uppercase letter')
-        .matches(/[a-z]/, 'Must contain at least one lowercase letter')
-        .matches(/[0-9]/, 'Must contain at least one number')
-        .matches(/[@$!%*?&#]/, 'Must contain at least one special character')
-        .required('Password is required'),
+        .required('Mot de passe obligatoire'),
 });
 
-const LoginForm = ({ onSubmit }) => {
+const LoginForm = () => {
+    const { login } = useAuth(); // Fonction login venant du contexte Auth
+    const navigate = useNavigate(); // Pour gérer la redirection après connexion réussie
+
+    // Fonction de gestion du formulaire
+    const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+        try {
+            const token = await login(values.prenom, values.password);
+            console.log("🔑 Token stocké :", token);
+            navigate("/groupe"); // Redirige vers "/groupe" après connexion réussie
+        } catch (error) {
+            setErrors({ prenom: "Prénom ou mot de passe incorrect" });
+            console.error('Erreur lors de la connexion :', error);
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
     return (
         <div className="container mt-5">
             <Formik
-                initialValues={{ email: '', password: '' }}
+                initialValues={{ prenom: '', password: '' }}
                 validationSchema={validationSchema}
-                onSubmit={onSubmit}
+                onSubmit={handleSubmit}
             >
                 {({
-                      handleSubmit,
                       handleChange,
                       handleBlur,
                       values,
@@ -33,49 +46,45 @@ const LoginForm = ({ onSubmit }) => {
                       touched,
                       isValid,
                       dirty,
+                      isSubmitting,
                   }) => (
-                    <Form onSubmit={handleSubmit} className="card p-4 shadow-lg">
-                        {/* Champ email */}
+                    <Form className="card p-4 shadow-lg">
                         <div className="mb-3">
-                            <label htmlFor="email" className="form-label">Email</label>
+                            <label htmlFor="prenom" className="form-label">Prénom</label>
                             <input
-                                type="email"
-                                className={`form-control ${touched.email && errors.email ? 'is-invalid' : ''}`}
-                                id="email"
-                                name="email"
-                                value={values.email}
+                                type="text"
+                                name="prenom"
+                                value={values.prenom}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
+                                className={`form-control ${touched.prenom && errors.prenom ? 'is-invalid' : ''}`}
                             />
-                            {touched.email && errors.email && (
-                                <div className="invalid-feedback">{errors.email}</div>
+                            {touched.prenom && errors.prenom && (
+                                <div className="invalid-feedback">{errors.prenom}</div>
                             )}
                         </div>
 
-                        {/* Champ mot de passe */}
                         <div className="mb-3">
-                            <label htmlFor="password" className="form-label">Password</label>
+                            <label htmlFor="password" className="form-label">Mot de passe</label>
                             <input
                                 type="password"
-                                className={`form-control ${touched.password && errors.password ? 'is-invalid' : ''}`}
-                                id="password"
                                 name="password"
                                 value={values.password}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
+                                className={`form-control ${touched.password && errors.password ? 'is-invalid' : ''}`}
                             />
                             {touched.password && errors.password && (
                                 <div className="invalid-feedback">{errors.password}</div>
                             )}
                         </div>
 
-                        {/* Bouton de soumission */}
                         <button
                             type="submit"
                             className="btn btn-primary w-100"
-                            disabled={!isValid || !dirty}
+                            disabled={!isValid || !dirty || isSubmitting}
                         >
-                            Login
+                            {isSubmitting ? "Connexion..." : "Se connecter"}
                         </button>
                     </Form>
                 )}
