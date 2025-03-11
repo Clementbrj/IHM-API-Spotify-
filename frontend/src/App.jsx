@@ -2,22 +2,24 @@ import { useState } from 'react'
 import './component/styles/App.css'
 import Ihm from './pages/ihm'
 import SubscribeForm from './pages/Subscribe'
-import Login from './pages/Login'
+import LoginForm from "./component/Login/LoginForm";
 import Groupe from "./pages/Groupe";
+import { AuthProvider } from "./component/context/AuthContext";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';// Import necessary components from react-router-dom for routing
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
+      <AuthProvider>
         <Router>
             <Routes>
             <Route path="/inscription" element={<SubscribeForm />} />{" "}
-            <Route path="/" element={<Ihm />} />{" "}
-            <Route path="/login" element={<Login />} />{" "}
+            <Route path="/login" element={<LoginForm/>} />{" "}
             <Route path="/groupe" element={<Groupe />} />{" "}
             </Routes>
         </Router>
+      </AuthProvider>
   )
 }
 
