@@ -138,5 +138,21 @@
       "members": [],
       "taille": 10
     }
+  },
+  {
+    "name": "rgdfgd",
+    "password": "fffff",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": null
   }
 ]

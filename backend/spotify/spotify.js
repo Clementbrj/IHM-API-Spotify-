@@ -30,7 +30,7 @@ function generateRandomString(length) {
 // Route pour se connecter à Spotify avec google..
 app.get('/spotify/connexion', (req, res) => {
     var state = generateRandomString(16);
-    const scope = 'user-read-recently-played user-read-private user-library-read';
+    const scope = 'user-read-recently-played user-read-private user-library-read playlist-modify-public playlist-modify-private playlist-modify-private playlist-modify-private';
 
     res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
@@ -79,13 +79,14 @@ app.get('/spotify/callback', async (req, res) => {
         try {
             const usernameresponse = await axios.get('https://api.spotify.com/v1/me', {
                 headers: {
-                    'Authorization': `Bearer ${accessToken}`
+                    'Authorization': `Bearer ${accessToken}`,
+                    "content-type": "application/json",
                 }
             });
             returnjson[1] = "USERNAME : " + usernameresponse.data.display_name;
             return res.status(200).json(returnjson);
         } catch (error) {
-            return res.status(500).json({ error: "Erreur lors de l'obtention du username spotify" });
+            return res.status(500).json({  error });
         }
     } catch (error) {
         return res.status(500).json({ error: "Erreur lors de l'obtention du token" });
@@ -107,10 +108,11 @@ const checkTokenValidity = async (req, res, next) => {
             accessToken = response.data.access_token;
             tokenExpirationTime = currentTime + (response.data.expires_in * 1000);
         } catch (error) {
-            return res.status(500).json({ error: "Erreur lors du rafraîchissement du token" });
+            return res.status(500).json({ error});
         }
     }
     req.accessToken = accessToken;
+    console.log(accessToken, "ddd");
     next();
 };
 
@@ -140,3 +142,63 @@ const refreshAccessToken = async () => {
 app.get('/spotify/ShowLiked', checkTokenValidity, async (req, res) => {
     res.json("Oéoé-oé");
 });
+
+
+// Route pour créer une playlist basée sur les musiques likées
+app.post('/spotify/createPlaylist', checkTokenValidity, async (req, res) => {
+    console.log("User ID récupéré :", req.accessToken);
+    try {
+        //Récupérer les informations de l'utilisateur
+        const userResponse = await axios.get('https://api.spotify.com/v1/me', {
+            headers: {
+                'Authorization': `Bearer ${req.accessToken}`,
+                "content-type": "application/json",
+            }
+        })
+
+        const userId = userResponse.data.id;
+        console.log("User ID récupéré :", userId, " | Type :", typeof userId);
+
+        //Créer une playlist pour l'utilisateur
+        const playlistResponse = await axios.post(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+            name: "mes titres préféré",
+            description: "Playlist générée automatiquement avec mes musiques likées",
+            public: false,
+        }, {
+            headers: {
+                'Authorization': `Bearer ${req.accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        const playlistId = playlistResponse.data.id;
+
+        //Récupérer les titres likés
+        const likedTracksResponse = await axios.get(`https://api.spotify.com/v1/me/tracks?limit=20`, {
+
+            headers: {
+                'Authorization': `Bearer ${req.accessToken}`,
+            }
+        })
+        const trackUris = likedTracksResponse.data.items.map(item => item.track.uri)
+
+        if (trackUris.length === 0) {
+            return res.status(400).json({error: "Aucune musique likée trouvée"})
+        }
+
+        //Ajouter les musiques à la playlist
+        await axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+            uris: trackUris,
+
+        }, {
+            headers: {
+                'Authorization': `Bearer ${req.accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return res.status(200).json({message: "Playlist crée avec succès !", playlistId});
+    } catch (error) {
+        console.error("erreur lors de la création de la playlist", error);
+        return res.status(500).json({error: "Impossible de créer la playlist"})
+    }
+})
