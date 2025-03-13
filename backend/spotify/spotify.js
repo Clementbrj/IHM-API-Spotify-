@@ -327,7 +327,6 @@ app.post('/spotify/createPlaylist', checkTokenValidity, async (req, res) => {
 
 
 
-
 // AT spotify a stock dans .json
 // 
 
