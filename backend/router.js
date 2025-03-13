@@ -6,6 +6,7 @@ const USERS_FILE = "user.json";
 const groupe = require("./groupe");
 const error = require("eslint-plugin-react/lib/util/error");
 const axios = require("axios");
+const {join} = require("node:path");
 
 // Lire les utilisateurs depuis le fichier JSON
 const readUsers = () => {
@@ -32,6 +33,68 @@ const writeUsers = (users) => {
         console.error("Erreur d'écriture dans le fichier :", error);
     }
 };
+
+router.get("/user", (req, res) => {
+    const usersPath = "user.json";
+    const usertoken = req.query.usertoken;
+
+    if (!usertoken) {
+        return res.status(400).json({ error: "Token utilisateur requis" });
+    }
+
+    fs.readFile(usersPath, "utf8", (err, data) => {
+        if (err) {
+            console.error("Erreur de lecture du fichier :", err);
+            return res.status(500).json({ error: "Erreur serveur" });
+        }
+        console.log(usersPath.usertoken, "mon token")
+        try {
+            const users = JSON.parse(data);
+            const user = users.find(u => u.username === usertoken); // Prend le premier utilisateur trouvé
+            console.log(user.username)
+            if(user.usertoken !== null) {
+                user.find(u => u.username === user.usertoken)
+            }
+            if (!user) {
+                return res.status(404).json({ error: "Utilisateur non trouvé" });
+            }
+
+
+            res.json({ username: user.username, usertoken: user.usertoken });
+        } catch (error) {
+            console.error("Erreur de parsing JSON :", error);
+            res.status(500).json({ error: "Erreur de parsing JSON" });
+        }
+    });
+});
+
+//route pour récuperer le username id de l'utilisateur
+router.get(`/user/:usertoken`, (req, res) => {
+    const usersPath = "user.json";
+
+    fs.readFile(usersPath, "utf8", (err, data) => {
+        if (err) {
+            console.error("Erreur de lecture du fichier :", err);
+            return res.status(500).json({ error: "Erreur serveur" });
+        }
+
+        try {
+            const users = JSON.parse(data);
+            const user = users.find(u => u.usertoken === req.params.usertoken); // Prend le premier utilisateur trouvé
+
+            if (!user) {
+                return res.status(404).json({ error: "Utilisateur non trouvé" });
+            }
+
+            res.json({ username: user.username, usertoken: req.params.usertoken });
+        } catch (error) {
+            console.error("Erreur de parsing JSON :", error);
+            res.status(500).json({ error: "Erreur de parsing JSON" });
+        }
+    });
+});
+
+
 
 // Route par défaut (accueil)
 router.get("/", (req, res) => {

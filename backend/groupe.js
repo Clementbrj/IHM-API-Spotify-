@@ -47,10 +47,16 @@ const writeUsers = (users) => {
 //Si l'utilisateur veut sortir du groupe
 const LeavesGroupe = (username, groupes) => {
     return groupes.map(group => {
+        // Vérifier si group.members est défini et est bien un tableau
+        if (!group.members || !Array.isArray(group.members)) {
+            console.warn(`Le groupe ${group.nom} a une structure invalide.`);
+            return group;
+        }
+
         if (group.members.includes(username)) {
             group.members = group.members.filter(member => member !== username);
 
-// Si l'utilisateur était admin, désigner un nouvel admin
+            // Si l'utilisateur était admin, désigner un nouvel admin
             if (group.is_admin === username) {
                 if (group.members.length > 0) {
                     group.is_admin = group.members[0];
@@ -61,11 +67,12 @@ const LeavesGroupe = (username, groupes) => {
         }
         return group;
     }).filter(group => group !== null);
-}
+};
+
 
 // Route pour rejoindre ou créer un groupe
 groupe.post("/groupes/join", (req, res) => {
-    const {groupe, userName} = req.body;
+    const {groupe, username, usertoken} = req.body;
 
     if (!groupe?.nom || !groupe?.taille) {
         return res.status(400).json({error: "Le nom et la taille du groupe sont requis"});
@@ -74,12 +81,12 @@ groupe.post("/groupes/join", (req, res) => {
     let groupes = readGroupes();
     let users = readUsers();
 
-    let user = users.find(u => u.name === userName);
+    let user = users.find(u => u.name === username && u.usertoken === usertoken);
     if (!user) {
         return res.status(404).json({error: "Utilisateur non trouvé"});
     }
 
-    groupes = LeavesGroupe(userName, groupes);
+    groupes = LeavesGroupe(username, groupes);
 
     let existingGroup = groupes.find(g => g.nom === groupe.nom);
 
@@ -87,25 +94,21 @@ groupe.post("/groupes/join", (req, res) => {
     if (!existingGroup) {
         existingGroup = {
             nom: groupe.nom,
-            is_admin: userName,
-            members: [userName],
+            members: [{name: username, is_admin: true}],
             taille: groupe.taille
         };
         groupes.push(existingGroup);
-        user.groupe = existingGroup.nom;
-        user.is_admin = {
-            is_admin: existingGroup.nom,
-        }
+        user.groupe = groupe.nom
+        user.is_admin = true;
     } else {
         // Vérifie si l'utilisateur est déjà membre
-        if (!existingGroup.members.includes(userName)) {
-            existingGroup.members.push(userName);
+        if (!existingGroup.members.some(member => member.name === username)) {
+            existingGroup.members.push({ name: username, is_admin: false });
         }
         user.groupe = existingGroup.nom;
     }
 
     // Mise à jour du groupe de l'utilisateur
-    user.groupe = groupe.nom;
     writeUsers(users);
     writeGroupes(groupes);
 

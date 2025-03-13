@@ -58,5 +58,36 @@
       null
     ],
     "taille": 2
+  },
+  {
+    "nom": "s",
+    "members": [
+      null
+    ],
+    "taille": 5
+  },
+  {
+    "nom": "f",
+    "members": [
+      null,
+      null
+    ],
+    "taille": 6
+  },
+  {
+    "nom": "g",
+    "members": [
+      null
+    ],
+    "taille": 3
+  },
+  {
+    "nom": "d",
+    "members": [
+      {
+        "is_admin": true
+      }
+    ],
+    "taille": 2
   }
 ]

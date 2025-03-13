@@ -127,7 +127,6 @@ try {
 // Route pour se connecter à Spotify avec google..
 app.get('/spotify/connexion', (req, res) => {
     const username = req.query.username;
-    var state = generateRandomString(16);
     const scope = process.env.scopeENV;
 
     if (!username) {
@@ -202,7 +201,7 @@ app.get('/spotify/callback', async (req, res) => {
             return res.status(404).json({ error: "Utilisateur non trouvé dans le json" });
         }
     } catch (error) {
-        return res.status(500).json({ error: "Erreur au token Spotify" });
+        return res.status(500).json({ error});
     }
 });    
 
@@ -317,6 +316,7 @@ app.post('/spotify/createPlaylist', checkTokenValidity, async (req, res) => {
                 'Content-Type': 'application/json'
             }
         })
+
 
         return res.status(200).json({message: "Playlist crée avec succès !", playlistId});
     } catch (error) {

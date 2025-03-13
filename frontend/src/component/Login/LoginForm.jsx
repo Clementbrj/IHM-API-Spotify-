@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Formik, Form } from 'formik';
 import { useAuth } from "../context/AuthContext"; // ✅ Vérifie bien ce chemin
 import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
+import axios from "axios";
+
 
 // Validation des champs du formulaire avec Yup
 const validationSchema = Yup.object().shape({
-    prenom: Yup.string()
+    username: Yup.string()
         .min(2, 'Le prénom doit avoir au moins 2 caractères')
         .required('Prénom obligatoire'),
     password: Yup.string()
@@ -16,25 +18,37 @@ const validationSchema = Yup.object().shape({
 const LoginForm = () => {
     const { login } = useAuth(); // Fonction login venant du contexte Auth
     const navigate = useNavigate(); // Pour gérer la redirection après connexion réussie
+    const [username, setUsername] = useState("");
 
     // Fonction de gestion du formulaire
     const handleSubmit = async (values, { setSubmitting, setErrors }) => {
         try {
-            const token = await login(values.prenom, values.password);
-            console.log("🔑 Token stocké :", token);
-            navigate("/groupe"); // Redirige vers "/groupe" après connexion réussie
+            console.log("GTYFqdsygfvseytugrftug",values.password);
+            const token = await login(values.username, values.password);
+            console.log("🔑 Token stocké :", token, values.username);
+            navigate("/groupe" ); // Redirige vers "/groupe" après connexion réussie
         } catch (error) {
-            setErrors({ prenom: "Prénom ou mot de passe incorrect" });
+            setErrors({ username: "Prénom ou mot de passe incorrect" });
             console.error('Erreur lors de la connexion :', error);
         } finally {
             setSubmitting(false);
         }
     };
 
+    useEffect(() => {
+        axios.get("http://localhost:3000/user")
+            .then((response) => {
+                setUsername(response.data.username);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, []);
+
     return (
         <div className="container mt-5">
             <Formik
-                initialValues={{ prenom: '', password: '' }}
+                initialValues={{ username: '', password: '' }}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >
@@ -50,17 +64,17 @@ const LoginForm = () => {
                   }) => (
                     <Form className="card p-4 shadow-lg">
                         <div className="mb-3">
-                            <label htmlFor="prenom" className="form-label">Prénom</label>
+                            <label htmlFor="username" className="form-label">Prénom</label>
                             <input
                                 type="text"
-                                name="prenom"
-                                value={values.prenom}
+                                name="username"
+                                value={values.username}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                className={`form-control ${touched.prenom && errors.prenom ? 'is-invalid' : ''}`}
+                                className={`form-control ${touched.username && errors.username ? 'is-invalid' : ''}`}
                             />
-                            {touched.prenom && errors.prenom && (
-                                <div className="invalid-feedback">{errors.prenom}</div>
+                            {touched.username && errors.username && (
+                                <div className="invalid-feedback">{errors.username}</div>
                             )}
                         </div>
 
@@ -78,7 +92,7 @@ const LoginForm = () => {
                                 <div className="invalid-feedback">{errors.password}</div>
                             )}
                         </div>
-
+                        <div className="invalid-feedback">{values.username}</div>
                         <button
                             type="submit"
                             className="btn btn-primary w-100"

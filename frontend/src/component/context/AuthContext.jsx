@@ -16,12 +16,17 @@ export const AuthProvider = ({ children }) => {
         setToken(token);
     }, []);
 
-    const login = async (email, password) => {
+
+
+    const login = async (username, password) => {
         try {
+            console.log(username,password,"sdfdgxhfg");
+            console.log(username, password);
             const response = await axios.post("http://localhost:3000/login", {
-                mail: email,
+                name: username,
                 user_pass: password,
             });
+            console.log(username,password,"sdfdgxhfg");
             if (response.status === 201) {
                 const { token, userId } = response.data;
                 localStorage.setItem('token', token);

@@ -13,14 +13,9 @@
       "tokenspotify": "dd",
       "durée_moyenne": "dd"
     },
-    "groupe": {
-      "nom": "dd",
-      "is_admin": "dd",
-      "members": [
-        "user1",
-        "user2"
-      ],
-      "taille": 10
+    "groupe": "s",
+    "is_admin": {
+      "is_admin": "s"
     }
   },
   {
@@ -32,57 +27,20 @@
     "titre_encours": "1",
     "appareil": "1",
     "spotify_info": {
-      "usernamespotify": "1",
+      "usernamespotify": "Gaby",
       "popularité": "1",
       "usertoken": "1",
-      "tokenspotify": "1",
-      "durée_moyenne": "1"
-    },
-    "groupe": {
-      "nom": "1",
-      "is_admin": "1",
-      "members": [],
-      "taille": 10
-    }
-  },
-  {
-    "name": "p",
-    "password": "p",
-    "playlist": "1",
-    "titre": "1",
-    "association": "1",
-    "titre_encours": "1",
-    "appareil": "1",
-    "spotify_info": {
-      "usernamespotify": "1",
-      "popularité": "1",
-      "tokenspotify": "1",
-      "durée_moyenne": "1"
-    },
-    "groupe": {
-      "nom": "1",
-      "is_admin": "1",
-      "members": [],
-      "taille": 10
-    }
-  },
-  {
-    "name": "p",
-    "password": "p",
-    "playlist": "1",
-    "titre": "1",
-    "association": "1",
-    "titre_encours": "1",
-    "appareil": "1",
-    "spotify_info": {
-      "usernamespotify": "Clément Barjolle",
-      "popularité": "1",
-      "tokenspotify": "BQD3S_JoE3o_OipgFVAUsLJ2bSZVMepedKze_OtlRqcG-oDRyAuqeXg4YFurdzD8E4o8nnlFpvo39mnr7jbZ7nQGAcAHAmNEw4_xS4H_f4PsR3Wokjy5vQ2gxrEy27l9WPlfjt3M4xp0e8L1ctYMxyQDirPnfFx9aL3ptIZlxwgdqVQ5xwQ_Kd9r2mIG6eQOz1L5doGn4fOGgcEzF7AocsJojvS0DOcgIGtpEaRP0eTPgcU9xrMidOFtrnK-XOY2",
+      "tokenspotify": "BQAyGHfNU2McG6nyB4NnxX4or2zNP8l3YREQ7LfzZBwkz3LzqF41AbqYp6Wyc_8YbQ9PlLby7b0Stoius8YG3hfFRmWfrhhhLcdXqlXtqgsFjyQ-PPOsLjzRwm-fd9NqeFZ65shbbY-qqo0nj62BDU8VeQIS0UvJzLf6EwcdW0K0ecs-tX-bnTpA4ZnuqAN2HinY1RT7RcQem5RTdKm1IaoQ_M_mi41vWe7ykW7rSc7z6P1_a94CW3Mwjh4JlEcEuIi8wecmCsLl831sgtlpD14_0V4DzsldqNA4un7U1SZZSBV9CSya7vM6ZQ0",
       "durée_moyenne": "1",
-      "refreshToken": "AQAu158LmVQo8stJEHTGmvKNdPY0EtTz8m2GckpslFORHYmE2NFAp7w3Nm1xeKNZ2V-UJT-bDKAjnJM02ZOUmXRZC9aOEZwlanD5xFCMl4RqYW2kfYijgvBQBHU09FdrSnU",
-      "tokenExpirationTime": 1741711636886
+      "refreshToken": "AQAvH7dCx8i8T0Md3lqDFJwZ3FrEc6fxRumAZ4XhF8hhk-yCpc3OUjZ_ofRltbR3iD6SceX4aTyMdBwYnFMNTn5FnAq4wQeG45ABxbTYjKL9TfdME0jBLIxMD4SVR5Nhbo8",
+      "tokenExpirationTime": 1741875773704
     },
-    "groupe": null
+    "groupe": {
+      "nom": "1",
+      "is_admin": "1",
+      "members": [],
+      "taille": 10
+    }
   },
   {
     "name": "ui",
@@ -127,7 +85,8 @@
     }
   },
   {
-    "groupe": "dfsdf"
+    "groupe": "d",
+    "is_admin": true
   },
   {
     "groupe": {
@@ -218,6 +177,42 @@
       "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImJvdXppZCIsImlhdCI6MTc0MTcwNTAwNCwiZXhwIjoxNzQxNzA1NjA0fQ.92FhJGcrcA8BOpGCVVXIqgejTUHVEixRpC0H2M9ikdw",
       "tokenspotify": "1",
       "durée_moyenne": "1"
+    },
+    "groupe": null
+  },
+  {
+    "name": "pu",
+    "password": "pu",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InB1IiwiaWF0IjoxNzQxODU3MjA0LCJleHAiOjE3NDE4NTc4MDR9.-TmLNtvR7yoZgZWpQ2U5eb-ekLwt313iOmZ3y2keiBw",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": null
+  },
+  {
+    "name": "titi",
+    "password": "titi",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "Gaby",
+      "popularité": "1",
+      "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InRpdGkiLCJpYXQiOjE3NDE4NzI2MDgsImV4cCI6MTc0MTg3MzIwOH0.2KdsUjPfAw-V24Nj51fZ_t_9tf7qQHhnKhycxDKH76Y",
+      "tokenspotify": "BQASwRN1VJGYYam6FzhuVCBSmZpKMmyb4PySde9SwcE1SuHuQwzFZcJSIXCoLpBKpydOg45s6FICmpC-GPFdAfT0vzG5pkIxt5XOBgm52UWZXVVvgx7pHtiGd9sO_K0E_NtCwlnpVg3Vf0Xn0K7T03i87NTvCwofIVD8sl3Vd5qGp7Fkubc7dnXwGFOswxmX362bXzU_Bj0ymqZNCiPQB8NGGLg8wmijmypljw7RsSFTs2DSNvOWvDSyWkCg4xee5SMEhRnzIbX2pWQCsI__fjKa6MaiS7itZcdM0M9jolYECt_4KV43fjtQ-30",
+      "durée_moyenne": "1",
+      "refreshToken": "AQDilUQuwhrZ43hPBumnLDa8481pRXamAsdsIUgtXcErJGuPFBvxfK9Q3Z6LgvwGymkdI0jbKn-nyDHB0Mr7B0h9SBqxdv1qRo-6l2B27i-Wyw7CgPtkFXTU4T_y_etsLJM",
+      "tokenExpirationTime": 1741876242572
     },
     "groupe": null
   }
