@@ -268,7 +268,6 @@ app.get('/spotify/ShowLiked', checkTokenValidity, async (req, res) => {
 
 
 
-
 // AT spotify a stock dans .json
 // 
 
