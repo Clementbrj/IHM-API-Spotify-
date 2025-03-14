@@ -1,5 +1,9 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
+
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
+
+
 
 export const AuthContext = createContext();
 
@@ -7,6 +11,7 @@ export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userId, setUserId] = useState(null);
     const [token, setToken] = useState(null);
+    const navigate = useNavigate(); // Pour gérer la redirection après connexion réus
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -16,25 +21,38 @@ export const AuthProvider = ({ children }) => {
         setToken(token);
     }, []);
 
-    const login = async (email, password) => {
+
+
+    const login = async (username, password) => {
         try {
+            console.log(username,password,"sdfdgxhfg");
+            console.log(username, password);
             const response = await axios.post("http://localhost:3000/login", {
-                mail: email,
+                name: username,
                 user_pass: password,
             });
-            if (response.status === 201) {
-                const { token, userId } = response.data;
-                localStorage.setItem('token', token);
-                localStorage.setItem('userId', userId);
-                setIsLoggedIn(true);
-                setUserId(userId);
-                setToken(token);
-            }
+
+            console.log(username,password,"sdfdgxhfg",response);
+ // Pour gérer la redirection après connexion réussie
+            console.log(Object.values(Object.values(response)[0][7]))
+            console.log((Object.values(response)[0]))
+            let tab = []
+            tab.push(Object.values(Object.values(response)[0]))
+            tab.push(Object.values(response)[0][7])
+
+       //     localStorage.setItem('userinfo',Object.values(response) );
+            localStorage.setItem('userinfo',tab );
+            console.log( localStorage.getItem('userinfo') );
+            navigate("/groupe");
+
         } catch (error) {
             console.error('Error logging in:', error);
             throw error;
         }
     };
+
+
+
 
     const logout = () => {
         localStorage.clear();

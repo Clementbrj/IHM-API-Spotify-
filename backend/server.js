@@ -14,7 +14,7 @@ const { router, groupe } = require("./router");
 app.use(cors());
 app.use(express.json());
 app.use("/", router, groupe);
-app.use("/", routerLogin); // ✅ Ajouté séparément
+app.use("/", routerLogin); // ✅ Ajout    séparément
 
 // Démarrage du serveur
 app.listen(PORT, () => {

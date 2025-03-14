@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext"; // ✅ Vérifie bien ce chemin
 import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 
+
 // Validation des champs du formulaire avec Yup
 const validationSchema = Yup.object().shape({
     prenom: Yup.string()
@@ -15,13 +16,20 @@ const validationSchema = Yup.object().shape({
 
 const LoginForm = () => {
     const { login } = useAuth(); // Fonction login venant du contexte Auth
+
     const navigate = useNavigate(); // Pour gérer la redirection après connexion réussie
 
     // Fonction de gestion du formulaire
     const handleSubmit = async (values, { setSubmitting, setErrors }) => {
         try {
-            const token = await login(values.prenom, values.password);
-            console.log("🔑 Token stocké :", token);
+            console.log("GTYFqdsygfvseytugrftug",values.password);
+            fetch(await login(values.prenom, values.password))
+                .then(response => response) // Convertir la réponse en JSON
+
+                .then(data => console.log(data))   // Afficher les données reçues
+                .catch(error => console.error('Erreur:', error));
+            //const token = await login(values.prenom, values.password).body;
+
             navigate("/groupe"); // Redirige vers "/groupe" après connexion réussie
         } catch (error) {
             setErrors({ prenom: "Prénom ou mot de passe incorrect" });
@@ -30,6 +38,9 @@ const LoginForm = () => {
             setSubmitting(false);
         }
     };
+
+   /* handleSubmit2().then(r => console.log("dqssg"))*/
+
 
     return (
         <div className="container mt-5">
@@ -78,7 +89,7 @@ const LoginForm = () => {
                                 <div className="invalid-feedback">{errors.password}</div>
                             )}
                         </div>
-
+                        <div className="invalid-feedback">{values.prenom}</div>
                         <button
                             type="submit"
                             className="btn btn-primary w-100"
@@ -91,6 +102,7 @@ const LoginForm = () => {
             </Formik>
         </div>
     );
+
 };
 
 export default LoginForm;
