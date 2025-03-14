@@ -118,7 +118,7 @@ var usertocheck
 
          //   res.status(210).send("ok ta mere")
             console.log(  Object.values(usertocheck))
-              res.status(210).send(Object.values(usertocheck))
+              res.status(210).send(Object.entries(usertocheck))
     }
 });
 
