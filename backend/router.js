@@ -36,31 +36,26 @@ const writeUsers = (users) => {
 
 router.get("/user", (req, res) => {
     const usersPath = "user.json";
-    const usertoken = req.query.usertoken;
-
-    if (!usertoken) {
-        return res.status(400).json({ error: "Token utilisateur requis" });
-    }
 
     fs.readFile(usersPath, "utf8", (err, data) => {
         if (err) {
             console.error("Erreur de lecture du fichier :", err);
             return res.status(500).json({ error: "Erreur serveur" });
         }
-        console.log(usersPath.usertoken, "mon token")
+
         try {
             const users = JSON.parse(data);
-            const user = users.find(u => u.username === usertoken); // Prend le premier utilisateur trouvé
-            console.log(user.username)
-            if(user.usertoken !== null) {
-                user.find(u => u.username === user.usertoken)
-            }
+            const user = users.find(u => u.username !== null); // Prend le premier utilisateur trouvé
+
+          //  if(user.usertoken !== null) {
+            //    user.find(u => u.username === user.usertoken)
+            //}
             if (!user) {
                 return res.status(404).json({ error: "Utilisateur non trouvé" });
             }
 
 
-            res.json({ username: user.username, usertoken: user.usertoken });
+            res.json({ username: user.username });
         } catch (error) {
             console.error("Erreur de parsing JSON :", error);
             res.status(500).json({ error: "Erreur de parsing JSON" });

@@ -45,76 +45,91 @@ const writeUsers = (users) => {
 };
 
 //Si l'utilisateur veut sortir du groupe
+// Si l'utilisateur veut sortir du groupe
 const LeavesGroupe = (username, groupes) => {
+    if (!Array.isArray(groupes)) {
+        console.error("Erreur : 'groupes' doit être un tableau.");
+        return [];  // Retourne un tableau vide pour éviter l'erreur
+    }
+
     return groupes.map(group => {
-        // Vérifier si group.members est défini et est bien un tableau
-        if (!group.members || !Array.isArray(group.members)) {
-            console.warn(`Le groupe ${group.nom} a une structure invalide.`);
-            return group;
+        // Vérification de la structure du groupe
+        if (!group || !group.members || !Array.isArray(group.members)) {
+            console.warn(`Le groupe ${group ? group.name : "inconnu"} a une structure invalide.`);
+            return null;  // Retourne null pour les groupes invalides
         }
 
         if (group.members.includes(username)) {
             group.members = group.members.filter(member => member !== username);
 
             // Si l'utilisateur était admin, désigner un nouvel admin
-            if (group.is_admin === username) {
+            if (group.admin === username) {
                 if (group.members.length > 0) {
-                    group.is_admin = group.members[0];
+                    group.admin = group.members[0];
                 } else {
-                    return null;
+                    return null;  // Si le groupe est vide, le supprimer
                 }
             }
         }
         return group;
-    }).filter(group => group !== null);
+    }).filter(group => group !== null);  // Filtrer les groupes invalides
 };
+
+
 
 
 // Route pour rejoindre ou créer un groupe
 groupe.post("/groupes/join", (req, res) => {
-    const {groupe, username, usertoken} = req.body;
-
-    if (!groupe?.nom || !groupe?.taille) {
-        return res.status(400).json({error: "Le nom et la taille du groupe sont requis"});
-    }
+    const { name, taille, username, usertoken } = req.body;
+    if (!name || !taille) return res.status(400).send("Nom ou taille du groupe manquants");
 
     let groupes = readGroupes();
     let users = readUsers();
+    let currentUser;
 
-    let user = users.find(u => u.name === username && u.usertoken === usertoken);
-    if (!user) {
-        return res.status(404).json({error: "Utilisateur non trouvé"});
-    }
-
-    groupes = LeavesGroupe(username, groupes);
-
-    let existingGroup = groupes.find(g => g.nom === groupe.nom);
-
-    // Si le groupe n'existe pas, on le crée
-    if (!existingGroup) {
-        existingGroup = {
-            nom: groupe.nom,
-            members: [{name: username, is_admin: true}],
-            taille: groupe.taille
-        };
-        groupes.push(existingGroup);
-        user.groupe = groupe.nom
-        user.is_admin = true;
-    } else {
-        // Vérifie si l'utilisateur est déjà membre
-        if (!existingGroup.members.some(member => member.name === username)) {
-            existingGroup.members.push({ name: username, is_admin: false });
+    // Chercher l'utilisateur correspondant au token
+    for (let user of users) {
+        if (user.username === username && user.token === usertoken) {
+            currentUser = user;
+            break;
         }
-        user.groupe = existingGroup.nom;
     }
 
-    // Mise à jour du groupe de l'utilisateur
-    writeUsers(users);
+    // Si l'utilisateur n'est pas trouvé, renvoie une erreur
+    if (!currentUser) return res.status(404).send("Utilisateur non trouvé");
+
+    // Supprime l'utilisateur de tout groupe actuel
+    groupes = LeavesGroupe(currentUser.username, groupes);
     writeGroupes(groupes);
 
-    console.log("Groupe mis à jour :", existingGroup);
-    res.status(201).json({message: "Groupe rejoint/créé avec succès", groupe: existingGroup});
+    // Vérifie si le groupe existe déjà
+    let groupeExist = groupes.find(g => g.name === name);
+
+    if (!groupeExist) {
+        // Si le groupe n'existe pas, crée un nouveau groupe
+        const newGroupe = {
+            name,
+            taille,
+            admin: currentUser.username,  // Utiliser currentUser.username pour admin
+            membres: [currentUser.username],  // Ajoute l'utilisateur comme membre
+        };
+        groupes.push(newGroupe);
+        writeGroupes(groupes);
+
+        return res.send("Groupe créé et vous avez été ajouté en tant que membre.");
+    } else {
+        // Si le groupe existe, ajoute simplement l'utilisateur au groupe en tant que membre
+        if (!groupeExist.membres.includes(currentUser.username)) {
+            groupeExist.membres.push(currentUser.username);
+            writeGroupes(groupes);
+            return res.send("Vous avez rejoint le groupe.");
+        } else {
+            return res.send("Vous faites déjà partie de ce groupe.");
+        }
+    }
 });
+
+
 
 
 module.exports = groupe;

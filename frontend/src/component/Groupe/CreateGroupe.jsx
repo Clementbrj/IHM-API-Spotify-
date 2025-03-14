@@ -5,7 +5,6 @@ const CreateGroupe = () => {
     const [nom, setNom] = useState("");
     const [taille, setTaille] = useState("");
     const [username, setUsername] = useState("");
-    const [usertoken, setUserToken] = useState("");
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -17,12 +16,10 @@ const CreateGroupe = () => {
 
         try {
             const response = await axios.post("http://localhost:3000/groupes/join", {
-                groupe: {
-                    nom,
-                    taille: Number(taille) // Conversion en nombre
-                },
+                name:nom,
+                taille: Number(taille),
                 username,
-                usertoken
+                //usertoken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InB1IiwiaWF0IjoxNzQxODU3MjA0LCJleHAiOjE3NDE4NTc4MDR9.-TmLNtvR7yoZgZWpQ2U5eb-ekLwt313iOmZ3y2keiBw"
             });
             console.log("Réponse serveur :", response.data);
             alert("Groupe créé avec succès !");
@@ -38,9 +35,8 @@ const CreateGroupe = () => {
 
     useEffect(() => {
         axios.get("http://localhost:3000/user")
-            .then((response) => {
+            .then((response) =>{
                 setUsername(response.data.username);
-                setUserToken(response.data.usertoken);
                 console.log(response.data.username);
             })
             .catch((error) => {

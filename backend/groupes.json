@@ -1,5 +1,13 @@
 [
   {
+    "groupes": {
+      "nom": "1",
+      "is_admin": "1",
+      "members": [],
+      "taille": 10
+    }
+  },
+  {
     "nom": "1",
     "is_admin": "1",
     "members": [],
@@ -92,10 +100,11 @@
     "taille": 2
   },
   {
-    "name": "j",
-    "taille": 7,
+    "name": "fsdfdsf",
+    "taille": 5,
+    "admin": "dd",
     "membres": [
-      null
+      "dd"
     ]
   }
 ]

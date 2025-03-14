@@ -85,7 +85,7 @@
     }
   },
   {
-    "groupe": "d",
+    "groupe": "gg",
     "is_admin": true
   },
   {
@@ -189,13 +189,17 @@
     "titre_encours": "1",
     "appareil": "1",
     "spotify_info": {
-      "usernamespotify": "1",
+      "usernamespotify": "devApispotify",
       "popularité": "1",
       "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InB1IiwiaWF0IjoxNzQxODU3MjA0LCJleHAiOjE3NDE4NTc4MDR9.-TmLNtvR7yoZgZWpQ2U5eb-ekLwt313iOmZ3y2keiBw",
-      "tokenspotify": "1",
-      "durée_moyenne": "1"
+      "tokenspotify": "BQCYQietIA2LchVSw-XSPSMp1hoFj7n-kVKkKO6RytXdJcm93W-aYDOkFGS2WWSkR9MiZIUHz3B-6ECTMbsfxh-cO3wHKnxB2RXe876K3an0F1NdwTj999XEdz1_QEmGFnv3vx5avZ9KcsABGnoujvOOyIqolvTsJBLOZI9ntc56fh5cvhhmEGO8XXU7ZdqVI2Gi2B1ipffs-9OozFMxDfDS7aozHfiV2CJfGs9DgPc6rYdoHX1Wf8WyttdhKGTuZayHTQCVzVP-zUojVlEmvEBaLNr_cwqUgaSGApyjT8tPzj9c35TN9_z4nhkrvgfA",
+      "durée_moyenne": "1",
+      "refreshToken": "AQAdhnvWOqEY4BQjuIxey1fducnKWweb7am50JmC_7gUmE4YKe68LX-NRNrHu5EBEpQ_HwrUX8u75zQ2YdVd-JVdUR1dDpYpVxnxwa0Ro4Yg8VFeLPwMoYSOF39ng-YTfuA"
     },
-    "groupe": null
+    "groupe": "s",
+    "is_admin": {
+      "is_admin": "s"
+    }
   },
   {
     "name": "titi",
@@ -209,9 +213,9 @@
       "usernamespotify": "Gaby",
       "popularité": "1",
       "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InRpdGkiLCJpYXQiOjE3NDE4NzI2MDgsImV4cCI6MTc0MTg3MzIwOH0.2KdsUjPfAw-V24Nj51fZ_t_9tf7qQHhnKhycxDKH76Y",
-      "tokenspotify": "BQASwRN1VJGYYam6FzhuVCBSmZpKMmyb4PySde9SwcE1SuHuQwzFZcJSIXCoLpBKpydOg45s6FICmpC-GPFdAfT0vzG5pkIxt5XOBgm52UWZXVVvgx7pHtiGd9sO_K0E_NtCwlnpVg3Vf0Xn0K7T03i87NTvCwofIVD8sl3Vd5qGp7Fkubc7dnXwGFOswxmX362bXzU_Bj0ymqZNCiPQB8NGGLg8wmijmypljw7RsSFTs2DSNvOWvDSyWkCg4xee5SMEhRnzIbX2pWQCsI__fjKa6MaiS7itZcdM0M9jolYECt_4KV43fjtQ-30",
+      "tokenspotify": "BQBO8wuFFJq-7c_j0VW8dcsdc35UVcyCpnNVDm5_kwJe2Yo97dqMc88BFG_bkyNluI1JSGeSwGotpCtRa5BrtjxtcwLv196KZGlxMAuVeKifnkxpTAcFTaWsbUCCjtqzFEoV-NGXiR2tgOHHQspIMbYjumKpoXsKpc1Y8ZyLk6ks16qpDI2btN_k_1fGjiFiwKL_pg1hwO0qHldlk2644gXyXnfGb9B90H-g1f9pfkWwDtNIwMGGn_g1kZONnBo54sQmxcB4_sSCS655qiUHNh0FVKxYgj1R19_u-Erec22-XLUm_IGA5gI-M0I",
       "durée_moyenne": "1",
-      "refreshToken": "AQDilUQuwhrZ43hPBumnLDa8481pRXamAsdsIUgtXcErJGuPFBvxfK9Q3Z6LgvwGymkdI0jbKn-nyDHB0Mr7B0h9SBqxdv1qRo-6l2B27i-Wyw7CgPtkFXTU4T_y_etsLJM",
+      "refreshToken": "AQBI9SbvY5xQsjBdqQHO-gucDNm94kfSBnfAlCyzh3KIb4gD3FUJXZWSrKBcowLntae4sKNYVFzbmXMVAJYUAEwOcH6w1qIlT2q7FGR5t5LC4NikxA86YwFGxy5uC2iQB0M",
       "tokenExpirationTime": 1741876242572
     },
     "groupe": null
