@@ -1,12 +1,15 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 const SubscribeForm = () => {
     const [name, setName] = useState("");
     const [password, SetPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+
         if (!name.trim() || !password.trim()) {
             alert("Please input a name");
         }
@@ -16,6 +19,7 @@ const SubscribeForm = () => {
                 .then(response => {
                     console.log(response);
                 })
+            navigate("/login"); // Redirige vers "/login" après l'inscription réussie
         } catch (err) {
             alert(err);
         }

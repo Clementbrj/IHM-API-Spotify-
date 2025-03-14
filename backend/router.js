@@ -34,61 +34,53 @@ const writeUsers = (users) => {
     }
 };
 
+/**
+ * @swagger
+ * /user:
+ *   get:
+ *     summary: Récupère un utilisateur du fichier user.json
+ *     description: Retourne le premier utilisateur trouvé avec un username non nul.
+ *     responses:
+ *       200:
+ *         description: Succès - Retourne l'utilisateur trouvé
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 username:
+ *                   type: string
+ *                   example: "john_doe"
+ *       404:
+ *         description: Aucun utilisateur trouvé
+ *       500:
+ *         description: Erreur serveur ou problème de lecture/parsing JSON
+ */
 router.get("/user", (req, res) => {
     const usersPath = "user.json";
 
     fs.readFile(usersPath, "utf8", (err, data) => {
         if (err) {
             console.error("Erreur de lecture du fichier :", err);
-            return res.status(500).json({ error: "Erreur serveur" });
+            return res.status(500).json({error: "Erreur serveur"});
         }
 
         try {
             const users = JSON.parse(data);
             const user = users.find(u => u.username !== null); // Prend le premier utilisateur trouvé
 
-          //  if(user.usertoken !== null) {
-            //    user.find(u => u.username === user.usertoken)
-            //}
             if (!user) {
-                return res.status(404).json({ error: "Utilisateur non trouvé" });
+                return res.status(404).json({error: "Utilisateur non trouvé"});
             }
 
 
-            res.json({ username: user.username });
+            res.json({username: user.username});
         } catch (error) {
             console.error("Erreur de parsing JSON :", error);
-            res.status(500).json({ error: "Erreur de parsing JSON" });
+            res.status(500).json({error: "Erreur de parsing JSON"});
         }
     });
 });
-
-//route pour récuperer le username id de l'utilisateur
-router.get(`/user/:usertoken`, (req, res) => {
-    const usersPath = "user.json";
-
-    fs.readFile(usersPath, "utf8", (err, data) => {
-        if (err) {
-            console.error("Erreur de lecture du fichier :", err);
-            return res.status(500).json({ error: "Erreur serveur" });
-        }
-
-        try {
-            const users = JSON.parse(data);
-            const user = users.find(u => u.usertoken === req.params.usertoken); // Prend le premier utilisateur trouvé
-
-            if (!user) {
-                return res.status(404).json({ error: "Utilisateur non trouvé" });
-            }
-
-            res.json({ username: user.username, usertoken: req.params.usertoken });
-        } catch (error) {
-            console.error("Erreur de parsing JSON :", error);
-            res.status(500).json({ error: "Erreur de parsing JSON" });
-        }
-    });
-});
-
 
 
 // Route par défaut (accueil)
@@ -96,6 +88,121 @@ router.get("/", (req, res) => {
     res.json("Bienvenue dans l'API");
 });
 
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     summary: Crée un nouvel utilisateur
+ *     description: Enregistre un nouvel utilisateur avec des informations Spotify et d'autres détails.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - password
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "JohnDoe"
+ *               password:
+ *                 type: string
+ *                 example: "securepassword123"
+ *               playlist:
+ *                 type: string
+ *                 example: "1"
+ *               titre:
+ *                 type: string
+ *                 example: "1"
+ *               association:
+ *                 type: string
+ *                 example: "1"
+ *               titre_encours:
+ *                 type: string
+ *                 example: "1"
+ *               appareil:
+ *                 type: string
+ *                 example: "1"
+ *               spotify_info:
+ *                 type: object
+ *                 properties:
+ *                   usernamespotify:
+ *                     type: string
+ *                     example: "SpotifyUser123"
+ *                   popularité:
+ *                     type: string
+ *                     example: "1"
+ *                   usertoken:
+ *                     type: string
+ *                     example: "generatedToken"
+ *                   tokenspotify:
+ *                     type: string
+ *                     example: "1"
+ *                   durée_moyenne:
+ *                     type: string
+ *                     example: "1"
+ *               groupe:
+ *                 type: string
+ *                 nullable: true
+ *                 example: null
+ *     responses:
+ *       201:
+ *         description: Utilisateur créé avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Utilisateur créé avec succès"
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Nom et mot de passe obligatoires
+ *       409:
+ *         description: L'utilisateur existe déjà
+ *       500:
+ *         description: Erreur interne du serveur
+ *
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         password:
+ *           type: string
+ *         playlist:
+ *           type: string
+ *         titre:
+ *           type: string
+ *         association:
+ *           type: string
+ *         titre_encours:
+ *           type: string
+ *         appareil:
+ *           type: string
+ *         spotify_info:
+ *           type: object
+ *           properties:
+ *             usernamespotify:
+ *               type: string
+ *             popularité:
+ *               type: string
+ *             usertoken:
+ *               type: string
+ *             tokenspotify:
+ *               type: string
+ *             durée_moyenne:
+ *               type: string
+ *         groupe:
+ *           type: string
+ *           nullable: true
+ */
 // Route pour ajouter un utilisateur
 router.post("/users", (req, res) => {
     const {
@@ -147,42 +254,7 @@ router.post("/users", (req, res) => {
 
 })
 
-router.post("users/:name/musique", async (req, res) => {
-    const {name} = req.body;
-    const users = readUsers();
-    const user = await users.find(user => user.name === name);
-
-    if (!user) {
-        return res.status(404).json({error: "Utilisateur non trouvé"});
-    }
-
-    if (!user.spotify?.tokenspotify){
-        return res.status(404).json({error: "Utilisateur non connecté à Spotify"})
-    }
-
-    try {
-        const response = await axios.get("https://api.spotify.com/v1/me/player/currently-playing", {
-            headers: {authorization: `Bearer ${user.spotify.tokenspotify}`},
-        })
-        if (!response.data || !response.data.playlist) {
-            return res.json({error: "Aucune musique en cours d'écoute"})
-        }
-        const track = response.data.item;
-        const musique = {
-            titre: track.name,
-        }
-
-        user.titre_encours = musique.titre;
-        fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), "utf8");
-        res.json(musique);
-
-    } catch(err) {
-        console.log("erreur API spotify :", err.response?.data || err.message);
-        res.status(500).json({error: "Impossible de récupérer la musique en cours"});
-    }
-})
-
-    module.exports = {
-        router,
-        groupe,
-    }
+module.exports = {
+    router,
+    groupe,
+}

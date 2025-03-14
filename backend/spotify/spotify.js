@@ -19,7 +19,7 @@ const fs = require('fs');
 
 require('dotenv').config({path: '../.env'});
 
-    // Mettre les bons Identifiants Spotify Developper !!!
+// Mettre les bons Identifiants Spotify Developper !!!
 const client_id = process.env.client_idENV;
 const client_secret = process.env.client_secretENV;
 const redirect_uri = process.env.redirect_uriENV;
@@ -45,70 +45,70 @@ function generateRandomString(length) {
 
 // Checker l'heure actuel VS l'heure d'expiration  ---------------
 const checkTokenValidity = async (req, res, next) => {
-try {
-    const currentTime = new Date().getTime();
-    const username = req.query.param;
+    try {
+        const currentTime = new Date().getTime();
+        const username = req.query.param;
 
-    // Charger la BDD
-    let users = JSON.parse(fs.readFileSync('user.json', 'utf8'));
-    const user = users.find(user => user.name === username);
+        // Charger la BDD
+        let users = JSON.parse(fs.readFileSync('user.json', 'utf8'));
+        const user = users.find(user => user.name === username);
 
-    if (!user || !user.spotify_info || !user.spotify_info.refreshToken) {
-        return res.status(404).json({ error: "Utilisateur ou refresh token introuvable" });
-    }
-
-    // Récupérer le token et son expiration
-    let accessToken = user.spotify_info.tokenspotify;
-    let tokenExpirationTime = user.spotify_info.tokenExpirationTime || 0;
-
-    if (currentTime >= tokenExpirationTime) {
-        const newAccessToken = await refreshAccessToken(user);
-        if (!newAccessToken) {
-            return res.status(500).json({ error: "Échec du rafraîchissement du token" });
+        if (!user || !user.spotify_info || !user.spotify_info.refreshToken) {
+            return res.status(404).json({ error: "Utilisateur ou refresh token introuvable" });
         }
-        
-        accessToken = newAccessToken;
-        tokenExpirationTime = currentTime + (3600 * 1000);
-        user.spotify_info.tokenExpirationTime = tokenExpirationTime;
 
-        fs.writeFileSync('user.json', JSON.stringify(users, null, 2), 'utf8');
+        // Récupérer le token et son expiration
+        let accessToken = user.spotify_info.tokenspotify;
+        let tokenExpirationTime = user.spotify_info.tokenExpirationTime || 0;
+
+        if (currentTime >= tokenExpirationTime) {
+            const newAccessToken = await refreshAccessToken(user);
+            if (!newAccessToken) {
+                return res.status(500).json({ error: "Échec du rafraîchissement du token" });
+            }
+
+            accessToken = newAccessToken;
+            tokenExpirationTime = currentTime + (3600 * 1000);
+            user.spotify_info.tokenExpirationTime = tokenExpirationTime;
+
+            fs.writeFileSync('user.json', JSON.stringify(users, null, 2), 'utf8');
+        }
+
+        req.accessToken = accessToken; // Stocker dans la requête pour l'utiliser après
+        next();
+    } catch (error) {
+        console.error("Erreur lors de la vérification du token :", error);
+        res.status(500).json({ error: "Erreur API Spotify locale #1" });
     }
-
-    req.accessToken = accessToken; // Stocker dans la requête pour l'utiliser après
-    next();
-} catch (error) {
-    console.error("Erreur lors de la vérification du token :", error);
-    res.status(500).json({ error: "Erreur API Spotify locale #1" });
-}
 };
 
 
 // Générer un nouveau token si expiration
 const refreshAccessToken = async (user) => {
-try {
-    const refreshToken = user.spotify_info.refreshToken;
+    try {
+        const refreshToken = user.spotify_info.refreshToken;
 
-    const url = "https://accounts.spotify.com/api/token";
-    const response = await axios.post(url, querystring.stringify({
-        grant_type: 'refresh_token',
-        refresh_token: refreshToken,
-        client_id: client_id,
-        client_secret: client_secret
-    }), {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
-        }
-    });
+        const url = "https://accounts.spotify.com/api/token";
+        const response = await axios.post(url, querystring.stringify({
+            grant_type: 'refresh_token',
+            refresh_token: refreshToken,
+            client_id: client_id,
+            client_secret: client_secret
+        }), {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
+            }
+        });
 
-    const newAccessToken = response.data.access_token;
-    user.spotify_info.tokenspotify = newAccessToken;
-    
-    return newAccessToken;
-} catch (error) {
-    console.error("Erreur lors du refresh :", error);
-    return null;
-}
+        const newAccessToken = response.data.access_token;
+        user.spotify_info.tokenspotify = newAccessToken;
+
+        return newAccessToken;
+    } catch (error) {
+        console.error("Erreur lors du refresh :", error);
+        return null;
+    }
 };
 
 
@@ -119,7 +119,39 @@ try {
 ------------------------------------ */
 
 
-
+/**
+ * @swagger
+ * /spotify/connexion:
+ *   get:
+ *     summary: Redirige l'utilisateur vers la page de connexion Spotify
+ *     description: Cette route génère une URL d'authentification Spotify et y redirige l'utilisateur. Le nom d'utilisateur est encodé dans le paramètre `state` pour être récupéré au callback.
+ *     tags: [Spotify]
+ *     parameters:
+ *       - in: query
+ *         name: username
+ *         required: true
+ *         description: Nom d'utilisateur à stocker pour la récupération après l'authentification
+ *         schema:
+ *           type: string
+ *     responses:
+ *       302:
+ *         description: Redirection vers la page d'authentification Spotify
+ *         headers:
+ *           Location:
+ *             schema:
+ *               type: string
+ *               example: "https://accounts.spotify.com/authorize?response_type=code&client_id=VOTRE_CLIENT_ID&scope=user-library-read&redirect_uri=VOTRE_REDIRECT_URI&state=%7B%22username%22%3A%22testUser%22%7D"
+ *       400:
+ *         description: Requête invalide (paramètre `username` manquant)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Username Json"
+ */
 // Route pour se connecter à Spotify avec google..
 app.get('/spotify/connexion', (req, res) => {
     const username = req.query.username;
@@ -142,6 +174,65 @@ app.get('/spotify/connexion', (req, res) => {
         }));
 });
 
+/**
+ * @swagger
+ * /spotify/callback:
+ *   get:
+ *     summary: Callback Spotify pour récupérer le token et l'username
+ *     description: Cette route est appelée après l'autorisation Spotify pour récupérer le token d'accès et le nom d'utilisateur.
+ *     tags: [Spotify]
+ *     parameters:
+ *       - in: query
+ *         name: code
+ *         required: true
+ *         description: Code d'autorisation retourné par Spotify après l'authentification
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: state
+ *         required: true
+ *         description: Contient l'username encodé en JSON pour associer le compte
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Token récupéré et enregistré avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
+ *               example: "Token en place dans le json"
+ *       400:
+ *         description: Requête invalide (code d'autorisation ou state manquant/incorrect)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Code d'autorisation manquant"
+ *       404:
+ *         description: Utilisateur non trouvé dans la base de données JSON
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Utilisateur non trouvé dans le json"
+ *       500:
+ *         description: Erreur interne du serveur (problème avec l'API Spotify ou fichier JSON)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Erreur serveur avec Spotify API"
+ */
 // Route de callback pour avoir le token & l'username)---------------
 app.get('/spotify/callback', async (req, res) => {
     const code = req.query.code || null;
@@ -199,7 +290,7 @@ app.get('/spotify/callback', async (req, res) => {
     } catch (error) {
         return res.status(500).json({ error});
     }
-});    
+});
 
 /* ------------------------------------
 
@@ -207,12 +298,85 @@ app.get('/spotify/callback', async (req, res) => {
 
 ------------------------------------ */
 
+/**
+ * @swagger
+ * /spotify/ShowLiked:
+ *   get:
+ *     summary: Récupère les titres likés de l'utilisateur sur Spotify
+ *     tags: [Spotify]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Liste des titres likés avec les statistiques de popularité et de durée
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 NbMusic:
+ *                   type: integer
+ *                   description: Nombre total de titres likés
+ *                   example: 120
+ *                 MoyPopularity:
+ *                   type: number
+ *                   format: float
+ *                   description: Moyenne de popularité des titres
+ *                   example: 75.42
+ *                 MoyDurationMin:
+ *                   type: number
+ *                   format: float
+ *                   description: Durée moyenne des titres likés en minutes
+ *                   example: 3.54
+ *                 tracks:
+ *                   type: array
+ *                   description: Liste des morceaux likés
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       name:
+ *                         type: string
+ *                         description: Nom du titre
+ *                         example: "Blinding Lights"
+ *                       artist:
+ *                         type: string
+ *                         description: Nom(s) de l'artiste/des artistes
+ *                         example: "The Weeknd"
+ *                       popularity:
+ *                         type: integer
+ *                         description: Score de popularité du titre
+ *                         example: 90
+ *                       durationMs:
+ *                         type: integer
+ *                         description: Durée du titre en millisecondes
+ *                         example: 210000
+ *       503:
+ *         description: Problème de connexion avec l'API Spotify
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Problème API Spotify internet"
+ *       500:
+ *         description: Erreur interne du serveur
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Erreur API Spotify locale #2"
+ */
 app.get('/spotify/ShowLiked', checkTokenValidity, async (req, res) => {
     try {
         const accessToken = req.accessToken;
         let MusicList = [];
         let getTracks = 'https://api.spotify.com/v1/me/tracks';
-        
+
         // Récupérer tous les titres likés
         while (getTracks) {
             const response = await axios.get(getTracks, {
@@ -259,8 +423,31 @@ app.get('/spotify/ShowLiked', checkTokenValidity, async (req, res) => {
     }
 });
 
-
-// Route pour créer une playlist basée sur les musiques likées  
+/**
+ * @swagger
+ * /spotify/createPlaylist:
+ *   post:
+ *     summary: Crée une playlist basée sur les musiques likées de l'utilisateur
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Playlist créée avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 playlistId:
+ *                   type: string
+ *       400:
+ *         description: Aucune musique likée trouvée
+ *       500:
+ *         description: Erreur lors de la création de la playlist
+ */
+// Route pour créer une playlist basée sur les musiques likées
 app.post('/spotify/createPlaylist', checkTokenValidity, async (req, res) => {
     console.log("User ID récupéré :", req.accessToken);
     try {
@@ -302,7 +489,6 @@ app.post('/spotify/createPlaylist', checkTokenValidity, async (req, res) => {
         }
 
 
-        
         //Ajouter les musiques à la playlist
         await axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
             uris: trackUris,
@@ -343,8 +529,8 @@ const authenticateSpotify = async (req, res, next) => {
 // Route pour synchroniser 2 utilisateurs
 app.get('/spotify/synchro', checkTokenValidity, async (req, res) => {
     try {
-        const accessToken = req.accessToken; 
-        const targetUsername = req.query.param; 
+        const accessToken = req.accessToken;
+        const targetUsername = req.query.param;
 
         if (!targetUsername) {
             return res.status(400).json({ error: "Nom d'utilisateur cible manquant" });
@@ -364,7 +550,7 @@ app.get('/spotify/synchro', checkTokenValidity, async (req, res) => {
         // Infos sur la musique en cours d'écoute
         const track = currentTrackResponse.data.item;
         const progressMs = currentTrackResponse.data.progress_ms;
-        const isPlaying = currentTrackResponse.data.is_playing; 
+        const isPlaying = currentTrackResponse.data.is_playing;
 
         // Trouver la target
         let users = JSON.parse(fs.readFileSync('user.json', 'utf8'));
@@ -379,7 +565,7 @@ app.get('/spotify/synchro', checkTokenValidity, async (req, res) => {
         // Synchroniser les écoutes
         await axios.put('https://api.spotify.com/v1/me/player/play', {
             uris: [track.uri],
-            position_ms: progressMs 
+            position_ms: progressMs
         }, {
             headers: {
                 'Authorization': `Bearer ${targetUserAccessToken}`,
