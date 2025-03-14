@@ -1,17 +1,14 @@
-// ✅ Correction précise
-
 
 const authenticateSpotify = async (req, res, next) => {
     try {
-        // Si le token est absent ou a expiré → Rafraîchir le token
-        if (!spotify.accessToken) {
+        // Vérifie que l'utilisateur est authentifié et possède un accessToken valide
+        const accessToken = req.accessToken; // Assurez-vous que vous récupérez le bon token ici
+        if (!accessToken) {
             console.log('🔄 Rafraîchissement du token Spotify...');
-            await refreshAccessToken();
+            await refreshAccessToken(); // Rafraîchir le token si nécessaire
         }
-
-        // Ajout du token dans le header de la requête
-        req.headers['Authorization'] = `Bearer ${spotify.accessToken}`;
-        next(); // Passe à la suite (exécute la requête suivante)
+        // Passe au prochain middleware ou à la route
+        next();
     } catch (error) {
         console.error('❌ Erreur d\'authentification Spotify:', error.message);
         res.status(401).json({ error: 'Erreur d\'authentification Spotify' });

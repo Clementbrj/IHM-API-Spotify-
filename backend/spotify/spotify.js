@@ -5,7 +5,6 @@
 const { app, SECRET_KEY } = require('../server');
 const querystring = require('querystring');
 const axios = require('axios');
-
 const fs = require('fs');
 
 require('dotenv').config({path: '../.env'});
@@ -127,7 +126,6 @@ try {
 // Route pour se connecter à Spotify avec google..
 app.get('/spotify/connexion', (req, res) => {
     const username = req.query.username;
-    var state = generateRandomString(16);
     const scope = process.env.scopeENV;
 
     if (!username) {
@@ -202,7 +200,7 @@ app.get('/spotify/callback', async (req, res) => {
             return res.status(404).json({ error: "Utilisateur non trouvé dans le json" });
         }
     } catch (error) {
-        return res.status(500).json({ error: "Erreur au token Spotify" });
+        return res.status(500).json({ error});
     }
 });    
 
@@ -266,7 +264,84 @@ app.get('/spotify/ShowLiked', checkTokenValidity, async (req, res) => {
     }
 });
 
+// Route pour créer une playlist basée sur les musiques likées
+app.post('/spotify/createPlaylist', checkTokenValidity, async (req, res) => {
+    console.log("User ID récupéré :", req.accessToken);
+    try {
+        //Récupérer les informations de l'utilisateur
+        const userResponse = await axios.get('https://api.spotify.com/v1/me', {
+            headers: {
+                'Authorization': `Bearer ${req.accessToken}`,
+                "content-type": "application/json",
+            }
+        })
 
+        const userId = userResponse.data.id;
+        console.log("User ID récupéré :", userId, " | Type :", typeof userId);
+
+        //Créer une playlist pour l'utilisateur
+        const playlistResponse = await axios.post(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+            name: "mes titres préféré",
+            description: "Playlist générée automatiquement avec mes musiques likées",
+            public: false,
+        }, {
+            headers: {
+                'Authorization': `Bearer ${req.accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        const playlistId = playlistResponse.data.id;
+
+        //Récupérer les titres likés
+        const likedTracksResponse = await axios.get(`https://api.spotify.com/v1/me/tracks?limit=20`, {
+
+            headers: {
+                'Authorization': `Bearer ${req.accessToken}`,
+            }
+        })
+        const trackUris = likedTracksResponse.data.items.map(item => item.track.uri)
+
+        if (trackUris.length === 0) {
+            return res.status(400).json({error: "Aucune musique likée trouvée"})
+        }
+
+        //Ajouter les musiques à la playlist
+        await axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+            uris: trackUris,
+
+        }, {
+            headers: {
+                'Authorization': `Bearer ${req.accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+
+
+        return res.status(200).json({message: "Playlist crée avec succès !", playlistId});
+    } catch (error) {
+        console.error("erreur lors de la création de la playlist", error);
+        return res.status(500).json({error: "Impossible de créer la playlist"})
+    }
+})
+
+const authenticateSpotify = async (req, res, next) => {
+    try {
+        // Vérifie que l'utilisateur est authentifié et possède un accessToken valide
+        const accessToken = req.accessToken; // Assurez-vous que vous récupérez le bon token ici
+        if (!accessToken) {
+            console.log('🔄 Rafraîchissement du token Spotify...');
+            await refreshAccessToken(); // Rafraîchir le token si nécessaire
+        }
+        // Passe au prochain middleware ou à la route
+        next();
+    } catch (error) {
+        console.error('❌ Erreur d\'authentification Spotify:', error.message);
+        res.status(401).json({ error: 'Erreur d\'authentification Spotify' });
+    }
+};
+
+
+module.exports = {authenticateSpotify};
 
 // AT spotify a stock dans .json
 // 
