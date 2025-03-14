@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 const CreateGroupe = () => {
     const [nom, setNom] = useState("");
     const [taille, setTaille] = useState("");
-    const [username, setUsername] = useState([]);
+    const [username, setUsername] = useState("");
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -14,11 +14,13 @@ const CreateGroupe = () => {
             return; // Arrête l'exécution ici
         }
 
+        console.log("Données envoyées :", { nameGroupe: nom, taille: Number(taille), name:username });
         try {
             const response = await axios.post("http://localhost:3000/groupes/join", {
-                name:nom,
+                nameGroupe:nom,
                 taille: Number(taille),
-                username,
+                name:username,
+
                 //usertoken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InB1IiwiaWF0IjoxNzQxODU3MjA0LCJleHAiOjE3NDE4NTc4MDR9.-TmLNtvR7yoZgZWpQ2U5eb-ekLwt313iOmZ3y2keiBw"
             });
             console.log("Réponse serveur :", response.data);
@@ -35,14 +37,29 @@ const CreateGroupe = () => {
 
     useEffect(() => {
         axios.get("http://localhost:3000/user")
-            .then((response) =>{
-                setUsername(localStorage.getItem('userinfo'));
-                console.log(response.data.username);
+            .then((response) => {
+                const localstorage = localStorage.getItem("userinfo");
+
+                if (!localstorage) {
+                    console.log("Aucune donnée trouvée dans localStorage");
+                    return;
+                }
+
+                const dataArray = localstorage.split(",");
+                console.log("Données après split :", dataArray);
+
+                // Vérifier que l'index 1 existe
+                const name1 = dataArray[1] ? dataArray[1].trim() : "";
+                console.log("Nom récupéré :", name1);
+
+                setUsername(name1);
+
             })
             .catch((error) => {
-                console.log(error);
-            })
+                console.error("Erreur lors de la requête :", error);
+            });
     }, []);
+
 
     return (
         <div>

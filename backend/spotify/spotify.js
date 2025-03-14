@@ -489,7 +489,6 @@ app.post('/spotify/createPlaylist', checkTokenValidity, async (req, res) => {
         }
 
 
-
         //Ajouter les musiques à la playlist
         await axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
             uris: trackUris,

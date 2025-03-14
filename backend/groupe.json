@@ -1,101 +1,18 @@
 [
   {
-    "nom": "1",
-    "is_admin": "1",
-    "members": [],
-    "taille": 10
-  },
-  {
-    "nom": "jkljkljkl",
-    "is_admin": "1",
-    "members": [],
-    "taille": "6"
-  },
-  {
-    "nom": "dsfdsf",
-    "is_admin": "1",
-    "members": [],
-    "taille": "2"
-  },
-  {
-    "nom": "dfdsfdsf",
-    "is_admin": "1",
-    "members": [],
-    "taille": "2"
-  },
-  {
-    "nom": "dsfdsfdf",
-    "members": [
-      null
-    ],
-    "taille": "3"
-  },
-  {
-    "nom": "ddd",
-    "is_admin": "1",
-    "members": [],
-    "taille": "1"
-  },
-  {
-    "nom": "fdgdfg",
-    "members": [
-      null,
-      null
-    ],
-    "taille": 2
-  },
-  {
-    "nom": "dfsdf",
-    "members": [
-      null
-    ],
-    "taille": 2
-  },
-  {
-    "nom": "s",
-    "members": [
-      null
-    ],
-    "taille": 5
-  },
-  {
-    "nom": "f",
-    "members": [
-      null,
-      null
-    ],
-    "taille": 6
-  },
-  {
-    "nom": "g",
-    "members": [
-      null
-    ],
-    "taille": 3
-  },
-  {
-    "nom": "d",
-    "members": [
-      {
-        "is_admin": true
-      }
-    ],
-    "taille": 2
-  },
-  {
-    "nom": "gg",
-    "members": [
-      {
-        "is_admin": true
-      }
-    ],
-    "taille": 2
-  },
-  {
-    "name": "ddk",
+    "nameGroupe": "te",
     "taille": "10",
+    "admin": "alo",
     "membres": [
-      null
+      "alo"
+    ]
+  },
+  {
+    "nameGroupe": "tse",
+    "taille": "10",
+    "admin": "ta",
+    "membres": [
+      "ta"
     ]
   }
 ]

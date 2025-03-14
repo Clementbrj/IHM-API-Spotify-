@@ -62,55 +62,25 @@ router.get("/user", (req, res) => {
     fs.readFile(usersPath, "utf8", (err, data) => {
         if (err) {
             console.error("Erreur de lecture du fichier :", err);
-            return res.status(500).json({ error: "Erreur serveur" });
+            return res.status(500).json({error: "Erreur serveur"});
         }
 
         try {
             const users = JSON.parse(data);
             const user = users.find(u => u.username !== null); // Prend le premier utilisateur trouvé
 
-          //  if(user.usertoken !== null) {
-            //    user.find(u => u.username === user.usertoken)
-            //}
             if (!user) {
-                return res.status(404).json({ error: "Utilisateur non trouvé" });
+                return res.status(404).json({error: "Utilisateur non trouvé"});
             }
 
 
-            res.json({ username: user.username });
+            res.json({username: user.username});
         } catch (error) {
             console.error("Erreur de parsing JSON :", error);
-            res.status(500).json({ error: "Erreur de parsing JSON" });
+            res.status(500).json({error: "Erreur de parsing JSON"});
         }
     });
 });
-
-//route pour récuperer le username id de l'utilisateur
-router.get(`/user/:usertoken`, (req, res) => {
-    const usersPath = "user.json";
-
-    fs.readFile(usersPath, "utf8", (err, data) => {
-        if (err) {
-            console.error("Erreur de lecture du fichier :", err);
-            return res.status(500).json({ error: "Erreur serveur" });
-        }
-
-        try {
-            const users = JSON.parse(data);
-            const user = users.find(u => u.usertoken === req.params.usertoken); // Prend le premier utilisateur trouvé
-
-            if (!user) {
-                return res.status(404).json({ error: "Utilisateur non trouvé" });
-            }
-
-            res.json({ username: user.username, usertoken: req.params.usertoken });
-        } catch (error) {
-            console.error("Erreur de parsing JSON :", error);
-            res.status(500).json({ error: "Erreur de parsing JSON" });
-        }
-    });
-});
-
 
 
 // Route par défaut (accueil)
@@ -284,42 +254,7 @@ router.post("/users", (req, res) => {
 
 })
 
-router.post("users/:name/musique", async (req, res) => {
-    const {name} = req.body;
-    const users = readUsers();
-    const user = await users.find(user => user.name === name);
-
-    if (!user) {
-        return res.status(404).json({error: "Utilisateur non trouvé"});
-    }
-
-    if (!user.spotify?.tokenspotify){
-        return res.status(404).json({error: "Utilisateur non connecté à Spotify"})
-    }
-
-    try {
-        const response = await axios.get("https://api.spotify.com/v1/me/player/currently-playing", {
-            headers: {authorization: `Bearer ${user.spotify.tokenspotify}`},
-        })
-        if (!response.data || !response.data.playlist) {
-            return res.json({error: "Aucune musique en cours d'écoute"})
-        }
-        const track = response.data.item;
-        const musique = {
-            titre: track.name,
-        }
-
-        user.titre_encours = musique.titre;
-        fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), "utf8");
-        res.json(musique);
-
-    } catch(err) {
-        console.log("erreur API spotify :", err.response?.data || err.message);
-        res.status(500).json({error: "Impossible de récupérer la musique en cours"});
-    }
-})
-
-    module.exports = {
-        router,
-        groupe,
-    }
+module.exports = {
+    router,
+    groupe,
+}

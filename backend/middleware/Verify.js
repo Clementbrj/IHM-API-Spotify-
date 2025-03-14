@@ -30,7 +30,7 @@ const verifyToken = (username,req, res, next) => {
         let tokentocompare = user.spotify_info.usertoken;
     console.log("edfsjnkigrdeuh")
         console.log(tokentocompare ,"[DEBUG->tokentocompare]",user)
-    const token = tokentocompare.split(".") // ✅ Extrait le vrai token après "Bearer "
+    //const token = tokentocompare.split(".") // ✅ Extrait le vrai token après "Bearer "
     console.log('token')
 try{
 

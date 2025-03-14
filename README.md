@@ -77,9 +77,10 @@ voici un descriptif des urls possibles
 ### FT-2 : Connexion ✔
 - Authentification de l'utilisateur et génération d'un token.
 
-### FT-3 : Rejoindre un Groupe ↻
+### FT-3 : Rejoindre un Groupe ✔
 - Possibilité de rejoindre ou créer un Groupe.
 - Gestion automatique des rôles d'administrateur.
+- Possibilité de consulter tous les groupes et le nombre de membres de chaque groupe.
 
 ### FT-4 : Liaison du compte Spotify ✔
 - Lien entre l'utilisateur et son compte Spotify via OAuth 2.0.
@@ -103,6 +104,10 @@ L'API est documentée avec  Swagger
 ## Persistance des données
 - Toutes les données sont stockées dans un fichier **users.json**.
 - Les mots de passe sont hachés avec SHA256.
+
+## Documentation swagger
+- On peut retrouver toute la documentation de nos API via Sawgger sur le lien suivant :
+- http://localhost:3000/api-docs
 
 
 <div style="display: flex; align-items: center;flex-direction:column; gap: 10   px;">
