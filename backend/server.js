@@ -15,7 +15,7 @@ const syncRouter = require('./router.sync');
 app.use(cors());
 app.use(express.json());
 app.use("/", router, groupe);
-app.use("/", routerLogin);
+app.use("/", routerLogin); // ✅ Ajout    séparément
 app.use("/",syncRouter);
 // Démarrage du serveur
 app.listen(PORT, () => {

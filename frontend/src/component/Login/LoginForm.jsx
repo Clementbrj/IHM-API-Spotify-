@@ -1,14 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { Formik, Form } from 'formik';
 import { useAuth } from "../context/AuthContext"; // ✅ Vérifie bien ce chemin
 import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
-import axios from "axios";
 
 
 // Validation des champs du formulaire avec Yup
 const validationSchema = Yup.object().shape({
-    username: Yup.string()
+    prenom: Yup.string()
         .min(2, 'Le prénom doit avoir au moins 2 caractères')
         .required('Prénom obligatoire'),
     password: Yup.string()
@@ -17,38 +16,36 @@ const validationSchema = Yup.object().shape({
 
 const LoginForm = () => {
     const { login } = useAuth(); // Fonction login venant du contexte Auth
+
     const navigate = useNavigate(); // Pour gérer la redirection après connexion réussie
-    const [username, setUsername] = useState("");
 
     // Fonction de gestion du formulaire
     const handleSubmit = async (values, { setSubmitting, setErrors }) => {
         try {
             console.log("GTYFqdsygfvseytugrftug",values.password);
-            const token = await login(values.username, values.password);
-            console.log("🔑 Token stocké :", token, values.username);
-            navigate("/groupe" ); // Redirige vers "/groupe" après connexion réussie
+            fetch(await login(values.prenom, values.password))
+                .then(response => response) // Convertir la réponse en JSON
+
+                .then(data => console.log(data))   // Afficher les données reçues
+                .catch(error => console.error('Erreur:', error));
+            //const token = await login(values.prenom, values.password).body;
+
+            navigate("/groupe"); // Redirige vers "/groupe" après connexion réussie
         } catch (error) {
-            setErrors({ username: "Prénom ou mot de passe incorrect" });
+            setErrors({ prenom: "Prénom ou mot de passe incorrect" });
             console.error('Erreur lors de la connexion :', error);
         } finally {
             setSubmitting(false);
         }
     };
 
-    useEffect(() => {
-        axios.get("http://localhost:3000/user")
-            .then((response) => {
-                setUsername(response.data.username);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }, []);
+   /* handleSubmit2().then(r => console.log("dqssg"))*/
+
 
     return (
         <div className="container mt-5">
             <Formik
-                initialValues={{ username: '', password: '' }}
+                initialValues={{ prenom: '', password: '' }}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >
@@ -64,17 +61,17 @@ const LoginForm = () => {
                   }) => (
                     <Form className="card p-4 shadow-lg">
                         <div className="mb-3">
-                            <label htmlFor="username" className="form-label">Prénom</label>
+                            <label htmlFor="prenom" className="form-label">Prénom</label>
                             <input
                                 type="text"
-                                name="username"
-                                value={values.username}
+                                name="prenom"
+                                value={values.prenom}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                className={`form-control ${touched.username && errors.username ? 'is-invalid' : ''}`}
+                                className={`form-control ${touched.prenom && errors.prenom ? 'is-invalid' : ''}`}
                             />
-                            {touched.username && errors.username && (
-                                <div className="invalid-feedback">{errors.username}</div>
+                            {touched.prenom && errors.prenom && (
+                                <div className="invalid-feedback">{errors.prenom}</div>
                             )}
                         </div>
 
@@ -92,7 +89,7 @@ const LoginForm = () => {
                                 <div className="invalid-feedback">{errors.password}</div>
                             )}
                         </div>
-                        <div className="invalid-feedback">{values.username}</div>
+                        <div className="invalid-feedback">{values.prenom}</div>
                         <button
                             type="submit"
                             className="btn btn-primary w-100"
@@ -105,6 +102,7 @@ const LoginForm = () => {
             </Formik>
         </div>
     );
+
 };
 
 export default LoginForm;
