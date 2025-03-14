@@ -10,12 +10,13 @@ const routerLogin = require("./routerLogin"); // ✅ Importation correcte
 const USERS_FILE = 'user.json';
 const SECRET_KEY = 'supersecretkey'; // Clé pour JWT
 const { router, groupe } = require("./router");
+const syncRouter = require('./router.sync');
 
 app.use(cors());
 app.use(express.json());
 app.use("/", router, groupe);
 app.use("/", routerLogin); // ✅ Ajout    séparément
-
+app.use("/",syncRouter);
 // Démarrage du serveur
 app.listen(PORT, () => {
     console.log(`✅ Serveur démarré sur http://localhost:${PORT}`);
