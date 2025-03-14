@@ -34,6 +34,28 @@ const writeUsers = (users) => {
     }
 };
 
+/**
+ * @swagger
+ * /user:
+ *   get:
+ *     summary: Récupère un utilisateur du fichier user.json
+ *     description: Retourne le premier utilisateur trouvé avec un username non nul.
+ *     responses:
+ *       200:
+ *         description: Succès - Retourne l'utilisateur trouvé
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 username:
+ *                   type: string
+ *                   example: "john_doe"
+ *       404:
+ *         description: Aucun utilisateur trouvé
+ *       500:
+ *         description: Erreur serveur ou problème de lecture/parsing JSON
+ */
 router.get("/user", (req, res) => {
     const usersPath = "user.json";
 
@@ -96,6 +118,121 @@ router.get("/", (req, res) => {
     res.json("Bienvenue dans l'API");
 });
 
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     summary: Crée un nouvel utilisateur
+ *     description: Enregistre un nouvel utilisateur avec des informations Spotify et d'autres détails.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - password
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "JohnDoe"
+ *               password:
+ *                 type: string
+ *                 example: "securepassword123"
+ *               playlist:
+ *                 type: string
+ *                 example: "1"
+ *               titre:
+ *                 type: string
+ *                 example: "1"
+ *               association:
+ *                 type: string
+ *                 example: "1"
+ *               titre_encours:
+ *                 type: string
+ *                 example: "1"
+ *               appareil:
+ *                 type: string
+ *                 example: "1"
+ *               spotify_info:
+ *                 type: object
+ *                 properties:
+ *                   usernamespotify:
+ *                     type: string
+ *                     example: "SpotifyUser123"
+ *                   popularité:
+ *                     type: string
+ *                     example: "1"
+ *                   usertoken:
+ *                     type: string
+ *                     example: "generatedToken"
+ *                   tokenspotify:
+ *                     type: string
+ *                     example: "1"
+ *                   durée_moyenne:
+ *                     type: string
+ *                     example: "1"
+ *               groupe:
+ *                 type: string
+ *                 nullable: true
+ *                 example: null
+ *     responses:
+ *       201:
+ *         description: Utilisateur créé avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Utilisateur créé avec succès"
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Nom et mot de passe obligatoires
+ *       409:
+ *         description: L'utilisateur existe déjà
+ *       500:
+ *         description: Erreur interne du serveur
+ *
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         password:
+ *           type: string
+ *         playlist:
+ *           type: string
+ *         titre:
+ *           type: string
+ *         association:
+ *           type: string
+ *         titre_encours:
+ *           type: string
+ *         appareil:
+ *           type: string
+ *         spotify_info:
+ *           type: object
+ *           properties:
+ *             usernamespotify:
+ *               type: string
+ *             popularité:
+ *               type: string
+ *             usertoken:
+ *               type: string
+ *             tokenspotify:
+ *               type: string
+ *             durée_moyenne:
+ *               type: string
+ *         groupe:
+ *           type: string
+ *           nullable: true
+ */
 // Route pour ajouter un utilisateur
 router.post("/users", (req, res) => {
     const {

@@ -1,309 +1,344 @@
 [
-    {
-        "name": "dd",
-        "password": "dd",
-        "playlist": "dd",
-        "titre": "dd",
-        "association": "dd",
-        "titre_encours": "dd",
-        "appareil": "dd",
-        "spotify_info": {
-            "usernamespotify": "dd",
-            "popularité": "dd",
-            "tokenspotify": "dd",
-            "durée_moyenne": "dd"
-        },
-        "groupe": {
-            "nom": "dd",
-            "is_admin": "dd",
-            "members": [
-                "user1",
-                "user2"
-            ],
-            "taille": 10
-        }
+  {
+    "name": "dd",
+    "password": "dd",
+    "playlist": "dd",
+    "titre": "dd",
+    "association": "dd",
+    "titre_encours": "dd",
+    "appareil": "dd",
+    "spotify_info": {
+      "usernamespotify": "dd",
+      "popularité": "dd",
+      "tokenspotify": "dd",
+      "durée_moyenne": "dd"
     },
-    {
-        "name": "p",
-        "password": "p",
-        "playlist": "1",
-        "titre": "1",
-        "association": "1",
-        "titre_encours": "1",
-        "appareil": "1",
-        "spotify_info": {
-            "usernamespotify": "1",
-            "popularité": "1",
-            "usertoken": "1",
-            "tokenspotify": "1",
-            "durée_moyenne": "1"
-        },
-        "groupe": {
-            "nom": "1",
-            "is_admin": "1",
-            "members": [],
-            "taille": 10
-        }
-    },
-    {
-        "name": "p",
-        "password": "p",
-        "playlist": "1",
-        "titre": "1",
-        "association": "1",
-        "titre_encours": "1",
-        "appareil": "1",
-        "spotify_info": {
-            "usernamespotify": "1",
-            "popularité": "1",
-            "tokenspotify": "1",
-            "durée_moyenne": "1"
-        },
-        "groupe": {
-            "nom": "1",
-            "is_admin": "1",
-            "members": [],
-            "taille": 10
-        }
-    },
-    {
-        "name": "p",
-        "password": "p",
-        "playlist": "1",
-        "titre": "1",
-        "association": "1",
-        "titre_encours": "1",
-        "appareil": "1",
-        "spotify_info": {
-            "usernamespotify": "Clément Barjolle",
-            "popularité": "1",
-            "tokenspotify": "BQD3S_JoE3o_OipgFVAUsLJ2bSZVMepedKze_OtlRqcG-oDRyAuqeXg4YFurdzD8E4o8nnlFpvo39mnr7jbZ7nQGAcAHAmNEw4_xS4H_f4PsR3Wokjy5vQ2gxrEy27l9WPlfjt3M4xp0e8L1ctYMxyQDirPnfFx9aL3ptIZlxwgdqVQ5xwQ_Kd9r2mIG6eQOz1L5doGn4fOGgcEzF7AocsJojvS0DOcgIGtpEaRP0eTPgcU9xrMidOFtrnK-XOY2",
-            "durée_moyenne": "1",
-            "refreshToken": "AQAu158LmVQo8stJEHTGmvKNdPY0EtTz8m2GckpslFORHYmE2NFAp7w3Nm1xeKNZ2V-UJT-bDKAjnJM02ZOUmXRZC9aOEZwlanD5xFCMl4RqYW2kfYijgvBQBHU09FdrSnU",
-            "tokenExpirationTime": 1741711636886
-        },
-        "groupe": null
-    },
-    {
-        "name": "ui",
-        "password": "ok",
-        "playlist": "1",
-        "titre": "1",
-        "association": "1",
-        "titre_encours": "1",
-        "appareil": "1",
-        "spotify_info": {
-            "usernamespotify": "1",
-            "popularité": "1",
-            "tokenspotify": "1",
-            "durée_moyenne": "1"
-        },
-        "groupe": {
-            "nom": "1",
-            "is_admin": "1",
-            "members": [],
-            "taille": 10
-        }
-    },
-    {
-        "name": "hj",
-        "password": "ghjghj",
-        "playlist": "1",
-        "titre": "1",
-        "association": "1",
-        "titre_encours": "1",
-        "appareil": "1",
-        "spotify_info": {
-            "usernamespotify": "1",
-            "popularité": "1",
-            "tokenspotify": "1",
-            "durée_moyenne": "1"
-        },
-        "groupe": {
-            "nom": "1",
-            "is_admin": "1",
-            "members": [],
-            "taille": 10
-        }
-    },
-    {
-        "groupe": "dfsdf"
-    },
-    {
-        "groupe": {
-            "nom": "1",
-            "is_admin": "1",
-            "members": [],
-            "taille": 10
-        }
-    },
-    {
-        "name": "mehdy",
-        "password": "bouzid",
-        "playlist": "1",
-        "titre": "1",
-        "association": "1",
-        "titre_encours": "1",
-        "appareil": "1",
-        "spotify_info": {
-            "usernamespotify": "1",
-            "popularité": "1",
-            "tokenspotify": "1",
-            "durée_moyenne": "1"
-        },
-        "groupe": null
-    },
-    {
-        "name": "mal",
-        "password": "bouzid",
-        "playlist": "1",
-        "titre": "1",
-        "association": "1",
-        "titre_encours": "1",
-        "appareil": "1",
-        "spotify_info": {
-            "usernamespotify": "1",
-            "popularité": "1",
-            "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Im1hbCIsImlhdCI6MTc0MTcwMzI0OSwiZXhwIjoxNzQxNzAzODQ5fQ.zqbm_DSD-Qh5Sj0aKmNQivdSJShzaE9c-D1hrtYl7ZI",
-            "tokenspotify": "1",
-            "durée_moyenne": "1"
-        },
-        "groupe": null
-    },
-    {
-        "name": "ss",
-        "password": "ss",
-        "playlist": "1",
-        "titre": "1",
-        "association": "1",
-        "titre_encours": "1",
-        "appareil": "1",
-        "spotify_info": {
-            "usernamespotify": "1",
-            "popularité": "1",
-            "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InNzIiwiaWF0IjoxNzQxNzAzMjg3LCJleHAiOjE3NDE3MDM4ODd9.Nxn7-t725hqZXbb0OaFamM4d9oi4oSfmj0N3VxtoWEg",
-            "tokenspotify": "1",
-            "durée_moyenne": "1"
-        },
-        "groupe": null
-    },
-    {
-        "name": "mehdy",
-        "password": "pepe",
-        "playlist": "1",
-        "titre": "1",
-        "association": "1",
-        "titre_encours": "1",
-        "appareil": "1",
-        "spotify_info": {
-            "usernamespotify": "1",
-            "popularité": "1",
-            "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Im1laGR5IiwiaWF0IjoxNzQxNzAzNzkzLCJleHAiOjE3NDE3MDQzOTN9.J7JrP7yyGO-NYBizUqaQ-98wEj-gGnub-JeTDFvDgC0",
-            "tokenspotify": "1",
-            "durée_moyenne": "1"
-        },
-        "groupe": null
-    },
-    {
-        "name": "bouzid",
-        "password": "bouzid",
-        "playlist": "1",
-        "titre": "1",
-        "association": "1",
-        "titre_encours": "1",
-        "appareil": "1",
-        "spotify_info": {
-            "usernamespotify": "1",
-            "popularité": "1",
-            "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImJvdXppZCIsImlhdCI6MTc0MTcwNTAwNCwiZXhwIjoxNzQxNzA1NjA0fQ.92FhJGcrcA8BOpGCVVXIqgejTUHVEixRpC0H2M9ikdw",
-            "tokenspotify": "1",
-            "durée_moyenne": "1"
-        },
-        "groupe": null
-    },
-    {
-        "name": "f",
-        "password": "f",
-        "playlist": "1",
-        "titre": "1",
-        "association": "1",
-        "titre_encours": "1",
-        "appareil": "1",
-        "spotify_info": {
-            "usernamespotify": "1",
-            "popularité": "1",
-            "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImYiLCJpYXQiOjE3NDE3MjQ1OTIsImV4cCI6MTc0MTcyNTE5Mn0.IsUIEuTCRlEXmYWNM_PBzfwklpgc0Wy1D8ABOMmBtzk",
-            "tokenspotify": "1",
-            "durée_moyenne": "1"
-        },
-        "groupe": null
-    },
-    {
-        "name": "ffg",
-        "password": "ffg",
-        "playlist": "1",
-        "titre": "1",
-        "association": "1",
-        "titre_encours": "1",
-        "appareil": "1",
-        "spotify_info": {
-            "usernamespotify": "1",
-            "popularité": "1",
-            "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImZmZyIsImlhdCI6MTc0MTkwMjMwOSwiZXhwIjoxNzQxOTAyOTA5fQ.SVsIUx9vHwYE4Rn49_36pL904fP5XeNfvufm32Aow2Q",
-            "tokenspotify": "1",
-            "durée_moyenne": "1"
-        },
-        "groupe": null
-    },
-    {
-        "name": "ddf",
-        "password": "ddf",
-        "playlist": "1",
-        "titre": "1",
-        "association": "1",
-        "titre_encours": "1",
-        "appareil": "1",
-        "spotify_info": {
-            "usernamespotify": "1",
-            "popularité": "1",
-            "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImRkZiIsImlhdCI6MTc0MTkzOTA3OCwiZXhwIjoxNzQxOTM5Njc4fQ.ExfcQuGf2km6Qydoc4FyjM6SNNFaLRYOfMclkpHLBrU",
-            "tokenspotify": "1",
-            "durée_moyenne": "1"
-        },
-        "groupe": null
-    },
-    {
-        "name": "ggg",
-        "password": "hjnhg",
-        "playlist": "1",
-        "titre": "1",
-        "association": "1",
-        "titre_encours": "1",
-        "appareil": "1",
-        "spotify_info": {
-            "usernamespotify": "1",
-            "popularité": "1",
-            "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImdnZyIsImlhdCI6MTc0MTczNTE3NSwiZXhwIjoxNzQxNzM1Nzc1fQ.4fucoSvasxECXafKdYgtEO22vsEE1o1YGDyzl7sdWQ4",
-            "tokenspotify": "1",
-            "durée_moyenne": "1"
-        },
-        "groupe": null
-    },
-    {
-        "name": "gggk",
-        "password": "hjnhg",
-        "playlist": "1",
-        "titre": "1",
-        "association": "1",
-        "titre_encours": "1",
-        "appareil": "1",
-        "spotify_info": {
-            "usernamespotify": "1",
-            "popularité": "1",
-            "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImdnZ2siLCJpYXQiOjE3NDE3MzUxODgsImV4cCI6MTc0MTczNTc4OH0.SsLbRTPHAnVAHnRe9jkX73ovZG2w76idqZEru6qm0rk",
-            "tokenspotify": "1",
-            "durée_moyenne": "1"
-        },
-        "groupe": null
+    "groupe": {
+      "nom": "dd",
+      "is_admin": "dd",
+      "members": [
+        "user1",
+        "user2"
+      ],
+      "taille": 10
     }
+  },
+  {
+    "name": "p",
+    "password": "p",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "usertoken": "1",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": {
+      "nom": "1",
+      "is_admin": "1",
+      "members": [],
+      "taille": 10
+    }
+  },
+  {
+    "name": "p",
+    "password": "p",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": {
+      "nom": "1",
+      "is_admin": "1",
+      "members": [],
+      "taille": 10
+    }
+  },
+  {
+    "name": "p",
+    "password": "p",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "Clément Barjolle",
+      "popularité": "1",
+      "tokenspotify": "BQD3S_JoE3o_OipgFVAUsLJ2bSZVMepedKze_OtlRqcG-oDRyAuqeXg4YFurdzD8E4o8nnlFpvo39mnr7jbZ7nQGAcAHAmNEw4_xS4H_f4PsR3Wokjy5vQ2gxrEy27l9WPlfjt3M4xp0e8L1ctYMxyQDirPnfFx9aL3ptIZlxwgdqVQ5xwQ_Kd9r2mIG6eQOz1L5doGn4fOGgcEzF7AocsJojvS0DOcgIGtpEaRP0eTPgcU9xrMidOFtrnK-XOY2",
+      "durée_moyenne": "1",
+      "refreshToken": "AQAu158LmVQo8stJEHTGmvKNdPY0EtTz8m2GckpslFORHYmE2NFAp7w3Nm1xeKNZ2V-UJT-bDKAjnJM02ZOUmXRZC9aOEZwlanD5xFCMl4RqYW2kfYijgvBQBHU09FdrSnU",
+      "tokenExpirationTime": 1741711636886
+    },
+    "groupe": null
+  },
+  {
+    "name": "ui",
+    "password": "ok",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": {
+      "nom": "1",
+      "is_admin": "1",
+      "members": [],
+      "taille": 10
+    }
+  },
+  {
+    "name": "hj",
+    "password": "ghjghj",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": {
+      "nom": "1",
+      "is_admin": "1",
+      "members": [],
+      "taille": 10
+    }
+  },
+  {
+    "groupe": "dfsdf"
+  },
+  {
+    "groupe": {
+      "nom": "1",
+      "is_admin": "1",
+      "members": [],
+      "taille": 10
+    }
+  },
+  {
+    "name": "mehdy",
+    "password": "bouzid",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": null
+  },
+  {
+    "name": "mal",
+    "password": "bouzid",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Im1hbCIsImlhdCI6MTc0MTcwMzI0OSwiZXhwIjoxNzQxNzAzODQ5fQ.zqbm_DSD-Qh5Sj0aKmNQivdSJShzaE9c-D1hrtYl7ZI",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": null
+  },
+  {
+    "name": "ss",
+    "password": "ss",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InNzIiwiaWF0IjoxNzQxNzAzMjg3LCJleHAiOjE3NDE3MDM4ODd9.Nxn7-t725hqZXbb0OaFamM4d9oi4oSfmj0N3VxtoWEg",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": null
+  },
+  {
+    "name": "mehdy",
+    "password": "pepe",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Im1laGR5IiwiaWF0IjoxNzQxNzAzNzkzLCJleHAiOjE3NDE3MDQzOTN9.J7JrP7yyGO-NYBizUqaQ-98wEj-gGnub-JeTDFvDgC0",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": null
+  },
+  {
+    "name": "bouzid",
+    "password": "bouzid",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImJvdXppZCIsImlhdCI6MTc0MTk0OTI2OCwiZXhwIjoxNzQxOTQ5ODY4fQ.2iJSH_k7S3SWCkFUJjnMF2bU-bB4h81FSXJt5-HiJ6Y",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": null
+  },
+  {
+    "name": "f",
+    "password": "f",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "Gaby",
+      "popularité": "1",
+      "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImYiLCJpYXQiOjE3NDE3MjQ1OTIsImV4cCI6MTc0MTcyNTE5Mn0.IsUIEuTCRlEXmYWNM_PBzfwklpgc0Wy1D8ABOMmBtzk",
+      "tokenspotify": "BQBj-3mCqeXd0h1uZ3TuBJ5znfZzB7FevMwC-uZ_vO13poPpgtEtZ9Hn1pkglLn2THqcSYPXSKvjuJczqkicwmYPSJqjDv4PsxjszPSR88RWFxpadcogBMzun4NrLk5eyxG2qX63LM1roBT142w7ZmGP2DQNcce46MPn8dB-4dMHGn-P_Vurux0jlIE_63MPPfzmHYPHSi2RicYODCuKeEwzeszzbvOOLqcaP0DGn7fdnCNuU4KmhbsYW2Ss_kOb8DAzDczangT9zyzZ3-mdcZIaYqZrdipk1_As1VsEDvVUT0j_-qmJZGZM2YcnSNFP",
+      "durée_moyenne": "1",
+      "refreshToken": "AQD3mptDvy7o820k7OdRTupdXOSrlpLP49ap9rdz6GYqCx8Oogc0CzUGq7aFvCVi5BmtBo7Rb4eF0_eSYnUcKY49Mwl7HGS7dxxteYTgVlid3fDrXeKMufFEGC65tYtNcaY"
+    },
+    "groupe": null
+  },
+  {
+    "name": "ffg",
+    "password": "ffg",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImZmZyIsImlhdCI6MTc0MTkwMjMwOSwiZXhwIjoxNzQxOTAyOTA5fQ.SVsIUx9vHwYE4Rn49_36pL904fP5XeNfvufm32Aow2Q",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": null
+  },
+  {
+    "name": "ddf",
+    "password": "ddf",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImRkZiIsImlhdCI6MTc0MTk1MTUwMiwiZXhwIjoxNzQxOTUyMTAyfQ.u72Uvv4Vm01Q09U6lUROZzn4e93OUUKig2nXQ_SWv7o",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": null
+  },
+  {
+    "name": "gggk",
+    "password": "hjnhg",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImdnZ2siLCJpYXQiOjE3NDE3MzUxODgsImV4cCI6MTc0MTczNTc4OH0.SsLbRTPHAnVAHnRe9jkX73ovZG2w76idqZEru6qm0rk",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": null
+  },
+  {
+    "name": "aa",
+    "password": "aa",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "1",
+      "popularité": "1",
+      "usertoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImFhIiwiaWF0IjoxNzQxOTYxMzY2LCJleHAiOjE3NDE5NjE5NjZ9.q7_CoW-Kqvs3hRJMGD9rl0lE0MQ0j-ySqZpsH5sh4lc",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": null
+  },
+  {
+    "name": "Alice",
+    "password": "mypassword",
+    "playlist": "2",
+    "titre": "5",
+    "association": "3",
+    "titre_encours": "7",
+    "appareil": "iPhone",
+    "spotify_info": {
+      "usernamespotify": "AliceSpotify",
+      "popularité": "99",
+      "usertoken": "abcd1234",
+      "tokenspotify": "xyz789",
+      "durée_moyenne": "120"
+    },
+    "groupe": "Rock Lovers"
+  },
+  {
+    "name": "JohnDoe",
+    "password": "securepassword123",
+    "playlist": "1",
+    "titre": "1",
+    "association": "1",
+    "titre_encours": "1",
+    "appareil": "1",
+    "spotify_info": {
+      "usernamespotify": "SpotifyUser123",
+      "popularité": "1",
+      "usertoken": "generatedToken",
+      "tokenspotify": "1",
+      "durée_moyenne": "1"
+    },
+    "groupe": null
+  }
 ]

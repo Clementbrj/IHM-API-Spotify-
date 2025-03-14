@@ -7,6 +7,117 @@ const {useNavigate} = require("react-router-dom");
 const USERS_FILE = "user.json";
 
 
+/**
+ * @swagger
+ * /login:
+ *   post:
+ *     summary: Authentification de l'utilisateur
+ *     description: Vérifie les informations d'identification d'un utilisateur et génère un token s'il est valide.
+ *     tags: [Authentification]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "JohnDoe"
+ *               user_pass:
+ *                 type: string
+ *                 example: "password123"
+ *     responses:
+ *       200:
+ *         description: Connexion réussie, retourne l'utilisateur avec un token mis à jour
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                 spotify_info:
+ *                   type: object
+ *                   properties:
+ *                     usertoken:
+ *                       type: string
+ *       210:
+ *         description: L'utilisateur est déjà connecté, retourne ses informations
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *       400:
+ *         description: Le username est requis
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Le username est requis"
+ *       401:
+ *         description: Utilisateur ou mot de passe incorrect
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Utilisateur ou mot de passe incorrect"
+ *       404:
+ *         description: Utilisateur non trouvé
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Utilisateur non trouvé"
+ *       500:
+ *         description: Erreur interne du serveur
+ */
+/**
+ * @swagger
+ * /login:
+ *   get:
+ *     summary: Vérification du token utilisateur
+ *     description: Vérifie si le token fourni est valide et retourne les informations de l'utilisateur.
+ *     tags: [Authentification]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Token valide, retourne les informations de l'utilisateur
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Token valide"
+ *                 user:
+ *                   type: string
+ *       401:
+ *         description: Token invalide ou manquant
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Token invalide ou manquant"
+ */
+
 // Route de connexion (POST /login)
 routerLogin.post("/login", (req, res) => {
     console.log("🚀 [DEBUG] Requête reçue sur /login [I] -> ",req.body);
@@ -116,7 +227,7 @@ var usertocheck
         console.log("Sucess")
             /*return user*/
 
-         //   res.status(210).send("ok ta mere")
+
             console.log(  Object.values(usertocheck))
               res.status(210).send(Object.values(usertocheck))
     }

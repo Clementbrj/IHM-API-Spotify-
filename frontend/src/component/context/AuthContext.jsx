@@ -35,12 +35,16 @@ export const AuthProvider = ({ children }) => {
             console.log(username,password,"sdfdgxhfg",response);
  // Pour gérer la redirection après connexion réussie
             console.log(Object.values(Object.values(response)[0][7]))
+            console.log(Object.values(Object.values(response)[0]))
+
             console.log((Object.values(response)[0]))
             let tab = []
-            tab.push(Object.values(Object.values(response)[0]))
-            tab.push(Object.values(response)[0][7])
+            tab.push(Object.values((response)[0]))
+            tab.push(Object.values(Object.values(response)[0][7]))
 
-       //     localStorage.setItem('userinfo',Object.values(response) );
+            Object.values(Object.values(response)[0][7])
+
+            //     localStorage.setItem('userinfo',Object.values(response) );
             localStorage.setItem('userinfo',tab );
             console.log( localStorage.getItem('userinfo') );
             navigate("/groupe");

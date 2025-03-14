@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 const CreateGroupe = () => {
     const [nom, setNom] = useState("");
     const [taille, setTaille] = useState("");
-    const [username, setUsername] = useState("");
+    const [username, setUsername] = useState([]);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -36,7 +36,7 @@ const CreateGroupe = () => {
     useEffect(() => {
         axios.get("http://localhost:3000/user")
             .then((response) =>{
-                setUsername(response.data.username);
+                setUsername(localStorage.getItem('userinfo'));
                 console.log(response.data.username);
             })
             .catch((error) => {

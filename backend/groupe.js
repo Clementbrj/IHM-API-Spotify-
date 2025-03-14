@@ -77,6 +77,65 @@ const LeavesGroupe = (username, groupes) => {
 
 
 
+/**
+ * @swagger
+ * /groupes/join:
+ *   post:
+ *     summary: Rejoindre ou créer un groupe
+ *     tags: [Groupes]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - taille
+ *               - username
+ *               - usertoken
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nom du groupe à rejoindre ou créer
+ *                 example: "Les Devs"
+ *               taille:
+ *                 type: integer
+ *                 description: Taille maximale du groupe
+ *                 example: 5
+ *               username:
+ *                 type: string
+ *                 description: Nom de l'utilisateur qui veut rejoindre le groupe
+ *                 example: "john_doe"
+ *               usertoken:
+ *                 type: string
+ *                 description: Jeton de l'utilisateur pour authentification
+ *                 example: "abcdef123456"
+ *     responses:
+ *       200:
+ *         description: Succès (création ou ajout dans un groupe existant)
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: "Vous avez rejoint le groupe."
+ *       400:
+ *         description: Requête invalide (données manquantes)
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: "Nom ou taille du groupe manquants"
+ *       404:
+ *         description: Utilisateur non trouvé
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: "Utilisateur non trouvé"
+ */
 
 // Route pour rejoindre ou créer un groupe
 groupe.post("/groupes/join", (req, res) => {
