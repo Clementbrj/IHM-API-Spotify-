@@ -32,20 +32,15 @@ export const AuthProvider = ({ children }) => {
                 user_pass: password,
             });
 
-            console.log(username,password,"sdfdgxhfg",response);
- // Pour gérer la redirection après connexion réussie
-            console.log(Object.values(Object.values(response)[0][7]))
-            console.log(Object.values(Object.values(response)[0]))
-
-            console.log((Object.values(response)[0]))
+            console.log(response.data.slice(0,7),Object.entries((response.data[7][1])))
             let tab = []
-            tab.push(Object.values((response)[0]))
-            tab.push(Object.values(Object.values(response)[0][7]))
-
-            Object.values(Object.values(response)[0][7])
-
-            //     localStorage.setItem('userinfo',Object.values(response) );
+            tab.push(response.data.slice(0,7))
+            tab.push((Object.entries((response.data[7][1]))))
+            tab.push(Object.values((response.data[8])))
+            tab.push(response.data[9])
             localStorage.setItem('userinfo',tab );
+
+
             console.log( localStorage.getItem('userinfo') );
             navigate("/groupe");
 

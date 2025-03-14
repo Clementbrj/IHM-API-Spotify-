@@ -1,6 +1,16 @@
 /*
+1. Se connecter avec pour générer le token
     http://localhost:3000/spotify/connexion?username=nomUtilisateurJson
+2. Regarder ces titres likés et ces stats
     http://localhost:3000/spotify/ShowLiked?param=nomUtilisateurJson
+
+    Avec Postman,
+3. Créer une playlist
+    http://localhost:3000/spotify/createPlaylist?param=nomUtilisateurJson
+    dans "authorization" mettre le tokenspotify dans user.json à l'objet json correspondant  
+4. Synchroniser la musique jouer par son compte à un compte cible
+    http://localhost:3000/spotify/synchro?param=nomUtilisateurJson
+    dans "authorization" ..
 */
 const { app, SECRET_KEY } = require('../server');
 const querystring = require('querystring');
@@ -9,7 +19,7 @@ const fs = require('fs');
 
 require('dotenv').config({path: '../.env'});
 
-    // Mettre les bons Identifiants Spotify Developper !!!
+// Mettre les bons Identifiants Spotify Developper !!!
 const client_id = process.env.client_idENV;
 const client_secret = process.env.client_secretENV;
 const redirect_uri = process.env.redirect_uriENV;
@@ -21,16 +31,6 @@ const redirect_uri = process.env.redirect_uriENV;
        Fonctions pour les routes
         
 ------------------------------------ */
-    // Fonction pour générer une chaîne aléatoire (Authorization code)---------------
-    function generateRandomString(length) {
-        let text = '';
-        const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-        for (let i = 0; i < length; i++) {
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
-        }
-        return text;
-    }
 
 // Fonction pour générer une chaîne aléatoire (Authorization code)---------------
 function generateRandomString(length) {
@@ -45,73 +45,70 @@ function generateRandomString(length) {
 
 // Checker l'heure actuel VS l'heure d'expiration  ---------------
 const checkTokenValidity = async (req, res, next) => {
-try {
-    const currentTime = new Date().getTime();
-    const username = req.query.param;
+    try {
+        const currentTime = new Date().getTime();
+        const username = req.query.param;
 
-    // Charger la BDD
-    let users = JSON.parse(fs.readFileSync('user.json', 'utf8'));
-    const user = users.find(user => user.name === username);
+        // Charger la BDD
+        let users = JSON.parse(fs.readFileSync('user.json', 'utf8'));
+        const user = users.find(user => user.name === username);
 
-    if (!user || !user.spotify_info || !user.spotify_info.refreshToken) {
-        return res.status(404).json({ error: "Utilisateur ou refresh token introuvable" });
-    }
-
-    // Récupérer le token et son expiration
-    let accessToken = user.spotify_info.tokenspotify;
-    let tokenExpirationTime = user.spotify_info.tokenExpirationTime || 0;
-    
-    console.log("ATTT !",accessToken);
-
-    if (currentTime >= tokenExpirationTime) {
-        console.log("ATTT !",accessToken);
-        const newAccessToken = await refreshAccessToken(user);
-        if (!newAccessToken) {
-            return res.status(500).json({ error: "Échec du rafraîchissement du token" });
+        if (!user || !user.spotify_info || !user.spotify_info.refreshToken) {
+            return res.status(404).json({ error: "Utilisateur ou refresh token introuvable" });
         }
-        
-        accessToken = newAccessToken;
-        tokenExpirationTime = currentTime + (3600 * 1000);
-        user.spotify_info.tokenExpirationTime = tokenExpirationTime;
 
-        fs.writeFileSync('user.json', JSON.stringify(users, null, 2), 'utf8');
+        // Récupérer le token et son expiration
+        let accessToken = user.spotify_info.tokenspotify;
+        let tokenExpirationTime = user.spotify_info.tokenExpirationTime || 0;
+
+        if (currentTime >= tokenExpirationTime) {
+            const newAccessToken = await refreshAccessToken(user);
+            if (!newAccessToken) {
+                return res.status(500).json({ error: "Échec du rafraîchissement du token" });
+            }
+
+            accessToken = newAccessToken;
+            tokenExpirationTime = currentTime + (3600 * 1000);
+            user.spotify_info.tokenExpirationTime = tokenExpirationTime;
+
+            fs.writeFileSync('user.json', JSON.stringify(users, null, 2), 'utf8');
+        }
+
+        req.accessToken = accessToken; // Stocker dans la requête pour l'utiliser après
+        next();
+    } catch (error) {
+        console.error("Erreur lors de la vérification du token :", error);
+        res.status(500).json({ error: "Erreur API Spotify locale #1" });
     }
-
-    req.accessToken = accessToken; // Stocker dans la requête pour l'utiliser après
-    next();
-} catch (error) {
-    console.error("Erreur lors de la vérification du token :", error);
-    res.status(500).json({ error: "Erreur API Spotify locale #1" });
-}
 };
 
 
 // Générer un nouveau token si expiration
 const refreshAccessToken = async (user) => {
-try {
-    const refreshToken = user.spotify_info.refreshToken;
+    try {
+        const refreshToken = user.spotify_info.refreshToken;
 
-    const url = "https://accounts.spotify.com/api/token";
-    const response = await axios.post(url, querystring.stringify({
-        grant_type: 'refresh_token',
-        refresh_token: refreshToken,
-        client_id: client_id,
-        client_secret: client_secret
-    }), {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
-        }
-    });
+        const url = "https://accounts.spotify.com/api/token";
+        const response = await axios.post(url, querystring.stringify({
+            grant_type: 'refresh_token',
+            refresh_token: refreshToken,
+            client_id: client_id,
+            client_secret: client_secret
+        }), {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
+            }
+        });
 
-    const newAccessToken = response.data.access_token;
-    user.spotify_info.tokenspotify = newAccessToken;
-    
-    return newAccessToken;
-} catch (error) {
-    console.error("Erreur lors du refresh :", error);
-    return null;
-}
+        const newAccessToken = response.data.access_token;
+        user.spotify_info.tokenspotify = newAccessToken;
+
+        return newAccessToken;
+    } catch (error) {
+        console.error("Erreur lors du refresh :", error);
+        return null;
+    }
 };
 
 
@@ -293,7 +290,7 @@ app.get('/spotify/callback', async (req, res) => {
     } catch (error) {
         return res.status(500).json({ error});
     }
-});    
+});
 
 /* ------------------------------------
 
@@ -379,7 +376,7 @@ app.get('/spotify/ShowLiked', checkTokenValidity, async (req, res) => {
         const accessToken = req.accessToken;
         let MusicList = [];
         let getTracks = 'https://api.spotify.com/v1/me/tracks';
-        
+
         // Récupérer tous les titres likés
         while (getTracks) {
             const response = await axios.get(getTracks, {
@@ -414,8 +411,6 @@ app.get('/spotify/ShowLiked', checkTokenValidity, async (req, res) => {
                 durationMs: track.track.duration_ms
             }))
         });
-
-        // Erreur au try
     } catch (error) {
         console.error("Erreur récup des titres :", error);
         if (error.response) {
@@ -493,6 +488,8 @@ app.post('/spotify/createPlaylist', checkTokenValidity, async (req, res) => {
             return res.status(400).json({error: "Aucune musique likée trouvée"})
         }
 
+
+
         //Ajouter les musiques à la playlist
         await axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
             uris: trackUris,
@@ -527,6 +524,78 @@ const authenticateSpotify = async (req, res, next) => {
         res.status(401).json({ error: 'Erreur d\'authentification Spotify' });
     }
 };
+
+
+
+// Route pour synchroniser 2 utilisateurs
+app.get('/spotify/synchro', checkTokenValidity, async (req, res) => {
+    try {
+        const accessToken = req.accessToken;
+        const targetUsername = req.query.param;
+
+        if (!targetUsername) {
+            return res.status(400).json({ error: "Nom d'utilisateur cible manquant" });
+        }
+
+        const currentTrackResponse = await axios.get('https://api.spotify.com/v1/me/player/currently-playing', {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        // Vérifier s'il y a une musique en cours de lecture
+        if (!currentTrackResponse.data || !currentTrackResponse.data.item) {
+            return res.status(400).json({ error: "Pas de musique en cours de lecture" });
+        }
+
+        // Infos sur la musique en cours d'écoute
+        const track = currentTrackResponse.data.item;
+        const progressMs = currentTrackResponse.data.progress_ms;
+        const isPlaying = currentTrackResponse.data.is_playing;
+
+        // Trouver la target
+        let users = JSON.parse(fs.readFileSync('user.json', 'utf8'));
+        const targetUser = users.find(user => user.spotify_info && user.name === targetUsername);
+        console.log(targetUsername)
+        if (!targetUser) {
+            return res.status(404).json({ error: "Utilisateur cible non trouvé" });
+        }
+
+        const targetUserAccessToken = targetUser.spotify_info.tokenspotify;
+
+        // Synchroniser les écoutes
+        await axios.put('https://api.spotify.com/v1/me/player/play', {
+            uris: [track.uri],
+            position_ms: progressMs
+        }, {
+            headers: {
+                'Authorization': `Bearer ${targetUserAccessToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // Mettre en pause si besoin
+        if (!isPlaying) {
+            await axios.put('https://api.spotify.com/v1/me/player/pause', {}, {
+                headers: {
+                    'Authorization': `Bearer ${targetUserAccessToken}`
+                }
+            });
+        }
+
+        res.status(200).json({ message: 'Musique synchronisée avec succès' });
+
+    } catch (error) {
+        console.error("Erreur lors de la synchronisation de la musique :", error);
+        if (error.response) {
+            return res.status(error.response.status).json({ error: error.response.data });
+        } else if (error.request) {
+            return res.status(503).json({ error: "Problème API Spotify internet" });
+        } else {
+            return res.status(500).json({ error: "Erreur de synchronisation" });
+        }
+    }
+});
 
 
 module.exports = {authenticateSpotify};
